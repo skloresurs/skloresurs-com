@@ -53,6 +53,10 @@ export default function generateSeoData(props: IProps): Props {
           rel: "sitemap",
           href: "/sitemap-index.xml",
         },
+        {
+          rel: "stylesheet",
+          href: "https://unpkg.com/aos@next/dist/aos.css",
+        },
       ],
       meta: [
         {

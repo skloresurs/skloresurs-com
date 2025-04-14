@@ -1,6 +1,7 @@
 // @ts-check
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import bun from "@nurodev/astro-bun";
 import playformCompress from "@playform/compress";
 import tailwindcss from "@tailwindcss/vite";
@@ -14,19 +15,35 @@ import { loadEnv } from "vite";
 
 const { PUBLIC_URL } = loadEnv(process.env.NODE_ENV ?? "", process.cwd(), "");
 
+const defaultLocale = "uk";
+const locales = {
+  uk: "uk",
+  en: "en",
+};
+
 // https://astro.build/config
 export default defineConfig({
   site: PUBLIC_URL,
   trailingSlash: "ignore",
   output: "server",
   adapter: bun(),
-  compressHTML: import.meta.env.PROD,
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+      paraglideVitePlugin({
+        project: "./project.inlang",
+        outdir: "./src/paraglide",
+      }),
+    ],
   },
   integrations: [
     react(),
-    sitemap(),
+    sitemap({
+      i18n: {
+        locales,
+        defaultLocale,
+      },
+    }),
     icon(),
     robotsTxt(),
     vtbot({

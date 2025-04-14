@@ -1,0 +1,20 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  loading?: "eager" | "lazy";
+  width?: number;
+}
+
+const { loading, width } = Astro.props as Props;
+---
+
+<a href="/">
+  <Image
+    src="/logo/logo.webp"
+    alt="Logo"
+    width={width ?? 1000}
+    height={(width ?? 1000) * 0.37}
+    loading={loading}
+  />
+</a>

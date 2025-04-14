@@ -1,1 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+
 @import "tailwindcss";
+
+@import "preline/variants.css";
+@source "../../node_modules/preline/dist/*.js";
+
+@plugin 'tailwind-scrollbar';
+
+/* ===== Global ===== */
+:root {
+  --color-background-50: #424242;
+  --color-background-100: #3f3f3f;
+  --color-background-200: #373737;
+  --color-background-300: #2f2f2f;
+  --color-background-400: #282828;
+  --color-background: #202020;
+  --color-background-600: #181818;
+  --color-background-700: #111111;
+  --color-background-800: #090909;
+  --color-background-900: #010101;
+  --color-background-950: #000000;
+
+  --color-primary-50: #a59dce;
+  --color-primary-100: #9a91c8;
+  --color-primary-200: #8579bc;
+  --color-primary-300: #6f61b1;
+  --color-primary-400: #5d4f9f;
+  --color-primary: #4f4387;
+  --color-primary-600: #41376f;
+  --color-primary-700: #332b57;
+  --color-primary-800: #251f3f;
+  --color-primary-900: #171428;
+  --color-primary-950: #100e1c;
+
+  --color-secondary-50: #08f3ff;
+  --color-secondary-100: #00edfa;
+  --color-secondary-200: #00d5e0;
+  --color-secondary-300: #00bdc7;
+  --color-secondary-400: #00a5ad;
+  --color-secondary: #008d94;
+  --color-secondary-600: #00747a;
+  --color-secondary-700: #005c61;
+  --color-secondary-800: #004447;
+  --color-secondary-900: #002c2e;
+  --color-secondary-950: #001f21;
+
+  --color-muted-50: #f9f9f9;
+  --color-muted-100: #f0f0f0;
+  --color-muted-200: #dedede;
+  --color-muted-300: #cccccc;
+  --color-muted-400: #bababa;
+  --color-muted: #a8a8a8;
+  --color-muted-600: #969696;
+  --color-muted-700: #858585;
+  --color-muted-800: #737373;
+  --color-muted-900: #616161;
+  --color-muted-950: #585858;
+}
+
+/* ===== Scrollbar ===== */
+/* * {
+  @apply scrollbar-thin scrollbar-track-background scrollbar-thumb-primary scrollbar-thumb-rounded-full;
+} */
+
+h1 {
+  @apply text-3xl md:text-4xl lg:text-5xl font-bold;
+}
+
+h2 {
+  @apply text-2xl md:text-3xl lg:text-4xl font-semibold;
+}
+
+h3 {
+  @apply text-xl md:text-2xl lg:text-3xl font-semibold;
+}
+
+h4 {
+  @apply text-lg md:text-xl lg:text-2xl font-semibold;
+}
+
+h5 {
+  @apply md:text-lg lg:text-xl font-semibold;
+}
+
+h6 {
+  @apply lg:text-lg font-medium;
+}
+
+html,
+body {
+  font-family: Raleway, sans-serif;
+  width: 100vw !important;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.swup-progress-bar {
+  background-color: var(--color-primary-300);
+}
+
+.grecaptcha-badge {
+  visibility: hidden !important;
+}

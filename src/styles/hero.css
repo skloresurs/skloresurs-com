@@ -1,0 +1,49 @@
+.glassmain {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100%;
+  max-width: 600px;
+  @media (min-width: 1280px) {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+.glassmain::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  background-color: var(--color-background-400);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-image: conic-gradient(
+    transparent,
+    var(--color-primary),
+    transparent 30%
+  );
+  animation: rotate 4s linear infinite;
+}
+
+.glassmain::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 6px;
+  top: 6px;
+  width: calc(100% - 12px);
+  height: calc(100% - 12px);
+  background: var(--color-background);
+  border-radius: 5px;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
