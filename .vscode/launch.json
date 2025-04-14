@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "command": "bun dev",
+      "name": "Development server",
+      "request": "launch",
+      "type": "node-terminal",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "http://localhost:4321",
+        "uriFormat": "http://localhost:4321"
+      }
+    },
+    {
+      "command": "bun start",
+      "name": "Preview Production server",
+      "request": "launch",
+      "type": "node-terminal",
+      "serverReadyAction": {
+        "action": "openExternally",
+        "pattern": "https://localhost:4321",
+        "uriFormat": "http://localhost:4321"
+      },
+      "preLaunchTask": "bun: build"
+    }
+  ]
+}

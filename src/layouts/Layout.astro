@@ -1,0 +1,46 @@
+---
+import "@/styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import generateSeoData from "@/utils/seo";
+import { SEO } from "astro-seo";
+import ProgressBar from "astro-vtbot/components/ProgressBar.astro";
+
+const { currentLocale } = Astro;
+const { pathname } = Astro.url;
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const seo = generateSeoData({
+  title,
+  description,
+  pathname,
+  locale: currentLocale,
+});
+---
+
+<!doctype html>
+<html lang={currentLocale ?? "en"}>
+	<head>
+		<SEO {...seo} />
+		<meta name="generator" content={Astro.generator} />
+		<ClientRouter />
+		<ProgressBar />
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>
