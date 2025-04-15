@@ -1,0 +1,60 @@
+---
+import { ChevronLeft, ChevronRight } from "lucide-astro";
+import { ceil, firstBy, identity } from "remeda";
+import { twMerge } from "tailwind-merge";
+
+interface Props {
+  total: number;
+  perPage: number;
+}
+const { total, perPage } = Astro.props;
+
+const searchParams = new URLSearchParams(Astro.url.searchParams);
+const page =
+  firstBy([1, Number(searchParams.get("page"))], [identity(), "desc"]) ?? 1;
+
+const totalPages = ceil(total / perPage, 0);
+
+function getUrl(page: number) {
+  const searchParams = new URLSearchParams(Astro.url.searchParams);
+  if (page === 1) {
+    searchParams.delete("page");
+  } else {
+    searchParams.set("page", String(page));
+  }
+  return `${Astro.url.pathname}?${searchParams.toString()}`;
+}
+---
+
+<!-- Pagination -->
+<nav
+  class="flex items-center gap-x-3 mt-6 justify-center"
+  aria-label="Pagination"
+>
+  <a
+    class={twMerge(
+      "size-10 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg hover:bg-primary focus:outline-none duration-300",
+      page <= 1 && "opacity-50 pointer-events-none",
+    )}
+    aria-label="Previous"
+    href={page <= 1 ? "#" : getUrl(page - 1)}
+  >
+    <ChevronLeft />
+  </a>
+  <div class="flex items-center gap-x-1 select-none">
+    <span class="width-10 flex justify-center items-center">{page}</span>
+    <span class="width-10 flex justify-center items-center">/</span>
+    <span class="width-10 flex justify-center items-center">{totalPages}</span>
+  </div>
+  <a
+    class={twMerge(
+      "size-10 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg hover:bg-primary focus:outline-none duration-300",
+      page >= totalPages && "opacity-50 pointer-events-none",
+    )}
+    aria-label="Previous"
+    href={page >= totalPages ? "#" : getUrl(page + 1)}
+  >
+    <ChevronRight />
+  </a>
+</nav>
+<!-- End Pagination -->

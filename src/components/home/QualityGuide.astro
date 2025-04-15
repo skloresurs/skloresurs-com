@@ -1,0 +1,62 @@
+---
+import { Image } from "astro:assets";
+import PrimaryLinkButton from "@/components/ui/PrimaryLinkButton.astro";
+import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
+import directus, { getCmsAssetURL } from "@/utils/cms";
+import { readSingleton } from "@directus/sdk";
+import { ChevronRight } from "lucide-astro";
+import { prop } from "remeda";
+
+const qualityGuides = await directus.request(
+  readSingleton("skloresurs_quality_book"),
+);
+
+const url = getCmsAssetURL(
+  prop(qualityGuides, getLocale()),
+  "quality-guide.pdf",
+);
+---
+
+<section id="quality-guide" class="mt-6 bg-background-600">
+  <div class="relative mx-auto flex max-w-6xl flex-col gap-6 p-6 md:flex-row">
+    <div class="relative mx-auto w-full max-w-[400px] md:w-1/3 md:pr-12">
+      <Image
+        src={`/quality-guide-${Astro.currentLocale ?? "uk"}.webp`}
+        alt="Quality book"
+        title="Quality book"
+        height={447}
+        width={400}
+        loading="lazy"
+        class="bottom-0 w-full object-cover object-bottom md:absolute"
+      />
+    </div>
+    <div class="flex flex-col gap-4 pt-6 md:w-2/3 md:pb-20">
+      <h2
+        class="text-primary-100"
+        data-aos="fade-right"
+        data-aos-anchor-placement="top-bottom"
+      >
+        {m.home_quality_guide_title()}
+      </h2>
+      <p
+        class="text-muted"
+        data-aos="fade-right"
+        data-aos-anchor-placement="top-bottom"
+        data-aos-delay="100"
+      >
+        {m.home_quality_guide_description()}
+      </p>
+      <PrimaryLinkButton
+        href={url}
+        target="_blank"
+        label={m.home_quality_guide_button()}
+        data-aos="fade-right"
+        data-aos-anchor-placement="top-bottom"
+        data-aos-delay="200"
+      >
+        <ChevronRight />
+      </PrimaryLinkButton>
+    </div>
+  </div>
+</section>

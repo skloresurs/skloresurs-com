@@ -1,0 +1,61 @@
+---
+import { m } from "@/paraglide/messages";
+import { ChevronDown } from "lucide-astro";
+import { map } from "remeda";
+
+interface Props {
+  label: string;
+  elements: {
+    label: string;
+    description: string;
+    href: string;
+    target?: "_blank";
+  }[];
+}
+
+const { label, elements } = Astro.props;
+---
+
+<div
+  class="hs-dropdown [--strategy:static] md:[--strategy:absolute] [--adaptive:none] [--is-collapse:true] md:[--is-collapse:false]"
+>
+  <button
+    id="hs-header-base-mega-menu-fullwidth"
+    type="button"
+    class="hs-dropdown-toggle p-2 flex items-center text-sm focus:bg-primary focus:outline-none duration-300 rounded-lg hover:bg-primary w-full"
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-label={label}
+  >
+    {label}
+    <ChevronDown class="shrink-0 size-4 ms-auto md:ms-1" />
+  </button>
+
+  <div
+    class="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] md:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 relative w-full min-w-60 hidden z-10 top-full start-0 before:absolute before:-top-5 before:start-0 before:w-full before:h-5"
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="hs-header-base-mega-menu-fullwidth"
+  >
+    <div
+      class="md:mx-6 lg:mx-8 md:bg-background-300 md:rounded-lg md:shadow-md"
+    >
+      <div class="py-1 md:p-2 md:grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {
+          map(elements, (element) => (
+            <a
+              class="p-3 flex gap-x-4 hover:bg-primary rounded-lg duration-300"
+              href={element.href}
+              target={element.target}
+            >
+              <div class="grow">
+                <p class="font-medium text-sm">{element.label}</p>
+                <p class="text-sm text-muted">{element.description}</p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>

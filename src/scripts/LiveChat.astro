@@ -1,0 +1,26 @@
+---
+
+---
+
+<script>
+  (function (d, t) {
+    const BASE_URL = "https://chatwoot.skloresurs.com";
+    const g = d.createElement(t);
+    const s = d.getElementsByTagName(t)[0];
+
+    window.chatwootSettings = {
+      locale: document.documentElement.lang,
+    };
+
+    g.src = BASE_URL + "/packs/js/sdk.js";
+    g.defer = true;
+    g.async = true;
+    s.parentNode?.insertBefore(g, s);
+    g.onload = function () {
+      window.chatwootSDK.run({
+        websiteToken: "3sYqehCuT2dE7mvn9Ap5u6Gm",
+        baseUrl: BASE_URL,
+      });
+    };
+  })(document, "script");
+</script>

@@ -1,27 +1,40 @@
+import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
 import type { Props } from "astro-seo";
 
 interface IProps {
   title?: string;
   description?: string;
   pathname: string;
-  locale?: string;
 }
 
-const titleDefault = "Astro Basis";
-const descriptionDefault = "Astro Template";
-
 export default function generateSeoData(props: IProps): Props {
-  const title = props.title ? `${props.title} | ${titleDefault}` : titleDefault;
-  const description = props.description || descriptionDefault;
+  const titleTemplate = m.meta_layout_title_template();
+  const titleDefault = m.meta_layout_title();
+
+  const title = props.title
+    ? `${props.title} | ${titleTemplate}`
+    : titleDefault;
+  const description = props.description || m.meta_home_description();
   const canonical = `${import.meta.env.PUBLIC_URL}/${props.pathname}`;
 
   return {
     title: props.title,
-    titleTemplate: `%s | ${titleDefault}`,
+    titleTemplate: `%s | ${titleTemplate}`,
     titleDefault,
     charset: "UTF-8",
     description,
     canonical,
+    languageAlternates: [
+      {
+        hrefLang: "uk",
+        href: `${import.meta.env.PUBLIC_URL}/en${props.pathname}`,
+      },
+      {
+        hrefLang: "en",
+        href: `${import.meta.env.PUBLIC_URL}${props.pathname}`,
+      },
+    ],
     openGraph: {
       basic: {
         title,
@@ -32,7 +45,7 @@ export default function generateSeoData(props: IProps): Props {
       optional: {
         description,
         siteName: titleDefault,
-        locale: props.locale,
+        locale: getLocale(),
       },
     },
     twitter: {

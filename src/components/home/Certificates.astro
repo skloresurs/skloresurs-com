@@ -1,0 +1,41 @@
+---
+import { m } from "@/paraglide/messages";
+import directus from "@/utils/cms";
+import { readItems } from "@directus/sdk";
+import CertificatesLightbox from "./CertificatesLightbox";
+
+const certificates = await directus.request(
+  readItems("skloresurs_certificates", {
+    fields: ["*"],
+  }),
+);
+---
+
+<section
+  id="certificates"
+  class="relative mx-auto aspect-[2/1] max-w-6xl"
+  data-aos="fade-up"
+  data-aos-anchor-placement="top-bottom"
+>
+  <div
+    class="absolute inset-y-0 inset-x-2 -z-10 bg-[url('/certificates.png')] bg-cover bg-center bg-no-repeat"
+  >
+  </div>
+  <div class="px-8 py-12 md:w-2/3 md:p-24">
+    <div>
+      <h2
+        class="leading-relaxed"
+        data-aos="fade-right"
+        data-aos-anchor-placement="top-bottom"
+        data-aos-delay={100}
+      >
+        {m.home_certificates()}
+      </h2>
+    </div>
+    <div
+      class="md:-bottom-16 md:absolute md:right-4 w-[300px] lg:w-[400px] mx-auto"
+    >
+      <CertificatesLightbox client:load certificates={certificates} />
+    </div>
+  </div>
+</section>

@@ -1,13 +1,22 @@
 ---
-import ChangeLocale from "@/components/ChangeLocale.astro";
+import Certificates from "@/components/home/Certificates.astro";
+import ContactUs from "@/components/home/ContactUs.astro";
+import Hero from "@/components/home/Hero.astro";
+import News from "@/components/home/News.astro";
+import Partners from "@/components/home/Partners.astro";
+import Projects from "@/components/home/Projects.astro";
+import QualityGuide from "@/components/home/QualityGuide.astro";
+import Target from "@/components/home/Target.astro";
 import Layout from "@/layouts/Layout.astro";
-import { m } from "@/paraglide/messages";
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout
-  >{m["test.example_message"]({ username: "Astro" })}
-  <ChangeLocale />
+<Layout>
+  <Hero />
+  <Target />
+  <Certificates />
+  <QualityGuide />
+  <News />
+  <Projects />
+  <Partners />
+  <ContactUs />
 </Layout>

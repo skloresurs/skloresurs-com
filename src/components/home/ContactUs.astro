@@ -1,0 +1,19 @@
+---
+import { getLocale } from "@/paraglide/runtime";
+import ContactUsForm from "./ContactUsForm";
+---
+
+<div
+  id="contact-us"
+  class="mx-auto mt-6 flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-6 md:flex-row"
+>
+  <ContactUsForm locale={getLocale()} client:load />
+  <div>
+    <iframe
+      width="425"
+      height="350"
+      loading="lazy"
+      src="https://openstreetmap.org/export/embed.html?bbox=25.718393325805664%2C50.36971885624534%2C25.83168983459473%2C50.416557852512305&layer=mapnik&marker=50.393144138646825%2C25.775041580200195"
+      style="border: 1px solid black"></iframe>
+  </div>
+</div>

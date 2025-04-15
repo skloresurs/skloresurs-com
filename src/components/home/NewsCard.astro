@@ -1,0 +1,31 @@
+---
+import PrimaryLink from "@/components/ui/PrimaryLink.astro";
+import { m } from "@/paraglide/messages";
+import { localizeHref } from "@/paraglide/runtime";
+import type { News } from "@/types/news";
+import { ChevronRight } from "lucide-astro";
+
+interface Props {
+  news: News;
+  index: number;
+}
+
+const { news, index } = Astro.props;
+---
+
+<div
+  class="flex flex-col gap-2"
+  data-aos="fade-down"
+  data-aos-anchor-placement="top-bottom"
+  data-aos-delay={150 + 100 * index}
+>
+  <h3 class="text-lg font-semibold">{news.translations?.at(0)?.title}</h3>
+  <p class="text-sm text-muted">{news.translations?.at(0)?.description}</p>
+  <PrimaryLink
+    label={m.home_news_read_more()}
+    href={localizeHref(`/news/${news.slug}`)}
+    className="ml-auto"
+  >
+    <ChevronRight />
+  </PrimaryLink>
+</div>

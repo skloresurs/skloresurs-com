@@ -1,0 +1,37 @@
+---
+import { getLocale } from "@/paraglide/runtime";
+import { Icon } from "astro-icon/components";
+
+const locale = getLocale();
+---
+
+<div class="flex flex-row gap-2 p-2">
+  <Icon
+    id="locale-uk"
+    name="flags/uk"
+    class="cursor-pointer hidden rounded-full"
+  />
+  <Icon
+    id="locale-en"
+    name="flags/en"
+    class="cursor-pointer hidden rounded-full"
+  />
+</div>
+
+<script>
+  import { setLocale, getLocale } from "@/paraglide/runtime.js";
+
+  const locale = getLocale();
+  if (locale !== "uk")
+    document?.querySelector(`#locale-uk`)?.classList.remove("hidden");
+  if (locale !== "en")
+    document?.querySelector(`#locale-en`)?.classList.remove("hidden");
+
+  document.querySelector("#locale-uk")?.addEventListener("click", () => {
+    setLocale("uk");
+  });
+
+  document.querySelector("#locale-en")?.addEventListener("click", () => {
+    setLocale("en");
+  });
+</script>

@@ -1,0 +1,53 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { m } from "@/paraglide/messages";
+---
+
+<Layout
+  title={m.meta_delivery_title()}
+  description={m.meta_delivery_description()}
+>
+  <div class="mx-auto max-w-6xl px-5">
+    <h1
+      class="mb-5 text-center"
+      data-aos="fade-up"
+      data-aos-anchor-placement="top-bottom"
+    >
+      {m.meta_delivery_title()}
+    </h1>
+    <div class="content mb-8">
+      <p
+        data-aos="fade-up"
+        data-aos-anchor-placement="top-bottom"
+        data-aos-delay="50"
+      >
+        {m.delivery_p1()}
+      </p>
+      <p
+        data-aos="fade-up"
+        data-aos-anchor-placement="top-bottom"
+        data-aos-delay="100"
+      >
+        {m.delivery_p2()}
+      </p>
+      <p
+        data-aos="fade-up"
+        data-aos-anchor-placement="top-bottom"
+        data-aos-delay="200"
+      >
+        {m.delivery_p3()}
+      </p>
+    </div>
+    <video
+      data-aos="fade-up"
+      data-aos-anchor-placement="top-bottom"
+      data-aos-delay="250"
+      src="/delivery/video.webm"
+      autoplay
+      muted
+      loop
+      class="aspect-video rounded-md"
+    >
+    </video>
+  </div>
+</Layout>

@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import type { Catalog } from "@/types/catalog";
+import { getCmsAssetURL } from "@/utils/cms";
+
+interface Props {
+  catalog: Catalog;
+}
+
+const { catalog } = Astro.props;
+---
+
+<div
+  class="bg-background-600 border rounded-xl shadow-sm flex flex-col xs:flex-row gap-4 p-4 items-center"
+  data-aos="fade-up"
+  data-aos-anchor-placement="top-bottom"
+>
+  <Image
+    width="150"
+    height="150"
+    class="aspect-square w-[150px] h-[150px]"
+    src={getCmsAssetURL(catalog.image, "image.webp")}
+    alt={catalog.translations?.at(0)?.title ?? ""}
+    loading="lazy"
+  />
+  <div class="flex flex-col justify-center">
+    <h3 class="m-0">{catalog.translations?.at(0)?.title}</h3>
+    <p class="mt-1 text-muted">
+      {catalog.translations?.at(0)?.description}
+    </p>
+  </div>
+</div>

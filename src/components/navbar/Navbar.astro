@@ -1,0 +1,111 @@
+---
+import BrandLogo from "@/components/BrandLogo.astro";
+import { m } from "@/paraglide/messages.js";
+import { localizeHref } from "@/paraglide/runtime";
+import { Menu } from "lucide-astro";
+import NavbarElement from "./NavbarElement.astro";
+import NavbarLanguageSwitcher from "./NavbarLanguageSwitcher.astro";
+import NavbarMegaMenu from "./NavbarMegaMenu.astro";
+---
+
+<!-- ========== HEADER ========== -->
+<header
+  class="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-background-400 mt-2 max-w-6xl mx-auto rounded-md mb-5"
+>
+  <nav
+    class="relative max-w-[85rem] w-full mx-auto md:flex md:items-center md:justify-between md:gap-3 py-2 px-4 sm:px-6 lg:px-8"
+  >
+    <div class="flex justify-between items-center gap-x-1">
+      <BrandLogo width={100} loading="eager" />
+
+      <button
+        type="button"
+        class="hs-collapse-toggle md:hidden"
+        id="hs-header-base-collapse"
+        aria-expanded="false"
+        aria-controls="hs-header-base"
+        aria-label="Toggle navigation"
+        data-hs-collapse="#hs-header-base"
+      >
+        <Menu />
+      </button>
+    </div>
+
+    <!-- Collapse -->
+    <div
+      id="hs-header-base"
+      class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block"
+      aria-labelledby="hs-header-base-collapse"
+    >
+      <div
+        class="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300"
+      >
+        <div
+          class="py-2 md:py-0 flex flex-col md:flex-row md:items-center gap-0.5 md:gap-1"
+        >
+          <div class="grow">
+            <div
+              class="flex flex-col md:flex-row md:justify-end md:items-center gap-0.5 md:gap-1"
+            >
+              <NavbarElement label={m.navbar_home()} href={localizeHref("/")} />
+              <NavbarElement
+                label={m.navbar_productions()}
+                href={localizeHref("/productions")}
+              />
+              <NavbarElement
+                label={m.navbar_productions()}
+                href={localizeHref("/projects")}
+              />
+              <NavbarElement
+                label={m.navbar_catalog()}
+                href={localizeHref("/catalog")}
+              />
+              <NavbarMegaMenu
+                label={m.navbar_services()}
+                elements={[
+                  {
+                    label: m.navbar_components_label(),
+                    description: m.navbar_components_description(),
+                    href: "https://skloresurscompany.prom.ua/ua/",
+                    target: "_blank",
+                  },
+                  {
+                    label: m.navbar_delivery_label(),
+                    description: m.navbar_delivery_description(),
+                    href: localizeHref("/delivery"),
+                  },
+                  {
+                    label: m.navbar_vacancies_label(),
+                    description: m.navbar_vacancies_description(),
+                    href: localizeHref("/vacancies"),
+                  },
+                ]}
+              />
+              <NavbarMegaMenu
+                label={m.navbar_posts()}
+                elements={[
+                  {
+                    label: m.navbar_news_label(),
+                    description: m.navbar_news_description(),
+                    href: localizeHref("/news"),
+                  },
+                  {
+                    label: m.navbar_reports_label(),
+                    description: m.navbar_reports_description(),
+                    href: localizeHref("/reports"),
+                  },
+                  {
+                    label: m.navbar_seminars_label(),
+                    description: m.navbar_seminars_description(),
+                    href: localizeHref("/seminars"),
+                  },
+                ]}
+              />
+              <NavbarLanguageSwitcher />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

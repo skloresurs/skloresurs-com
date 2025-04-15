@@ -1,0 +1,53 @@
+---
+import ReportCard from "@/components/ReportCard.astro";
+import Layout from "@/layouts/Layout.astro";
+import { m } from "@/paraglide/messages";
+import directus, { getCmsAssetURL } from "@/utils/cms";
+import { readItems } from "@directus/sdk";
+
+const reports = await directus.request(
+  readItems("skloresurs_reports", {
+    sort: ["-year"],
+  }),
+);
+---
+
+<Layout
+  title={m.meta_reports_title()}
+  description={m.meta_reports_description()}
+>
+  <div class="mx-auto max-w-6xl px-5">
+    <h1 class="mb-5 text-center">{m.meta_reports_title()}</h1>
+    <div class="flex flex-col gap-4">
+      {
+        reports.map((e, index) => (
+          <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="top-bottom"
+            data-aos-delay={index * 50}
+          >
+            <h2 class="mb-3">
+              {e.year} {m.reports_year()}
+            </h2>
+            <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <ReportCard
+                href={getCmsAssetURL(
+                  e.auditory,
+                  `report-auditory-${e.year}.pdf`,
+                )}
+                title={m.reports_auditory()}
+              />
+              <ReportCard
+                href={getCmsAssetURL(
+                  e.financial,
+                  `report-financial-${e.year}.pdf`,
+                )}
+                title={m.reports_financial()}
+              />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</Layout>

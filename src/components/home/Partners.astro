@@ -1,0 +1,17 @@
+---
+import directus from "@/utils/cms";
+import { readItems } from "@directus/sdk";
+import PartnersCarousel from "./PartnersCarousel";
+
+const partners = await directus.request(
+  readItems("skloresurs_brands", {
+    sort: ["name"],
+  }),
+);
+---
+
+<div class="mt-6">
+  <div class="mx-auto max-w-6xl px-6">
+    <PartnersCarousel client:load partners={partners} />
+  </div>
+</div>

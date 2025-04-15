@@ -1,7 +1,103 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "example_message": "Hello world {username}",
-  "test": {
-    "example_message": "Hello world {username}"
-  }
+  "meta_layout_title": "Skloresurs – your reliable partner in the world of glass.",
+  "meta_layout_title_template": "Skloresurs",
+  "meta_home_description": "Skloresurs - modern glass processing production according to European standards.",
+  "meta_catalog_title": "Products",
+  "meta_catalog_description": "Open our catalog to explore the range of products for creating unique design solutions.",
+  "meta_news_title": "News",
+  "meta_news_description": "Join us and stay up to date with the latest articles and news in the glass processing industry. Interesting and relevant materials, the latest technological achievements, and much more.",
+  "meta_projects_title": "Projects",
+  "meta_projects_description": "We invite you to view our project gallery and find inspiration in the world of glass processing. Learn more about our projects and innovations that inspire industry professionals.",
+  "meta_services_title": "Services",
+  "meta_services_description": "Get financial and audit reports for a deeper understanding of our company. Trust reliable information about our financial stability and operations.",
+  "meta_seminars_title": "Seminars",
+  "meta_seminars_description": "Learn more about our seminars. Gain valuable knowledge and insights in the field of glass processing and discover new trends and skills in our industry.",
+  "meta_vacancies_title": "Vacancies",
+  "meta_vacancies_description": "Learn about our current vacancies and discover the opportunity to join our team.",
+  "meta_delivery_title": "Product delivery to the site",
+  "meta_delivery_description": "Delivery that meets your needs. Safe loading and unloading of glass units of any size and weight. Learn more about our delivery terms.",
+  "meta_reports_title": "Reports",
+  "meta_reports_description": "Get financial and audit reports for a deeper understanding of our company. Trust reliable information about our financial stability and operations.",
+
+  "navbar_home": "Home",
+  "navbar_productions": "Production",
+  "navbar_catalog": "Products",
+  "navbar_projects": "Projects",
+  "navbar_services": "Services",
+  "navbar_components_label": "Components for glass processing",
+  "navbar_components_description": "Selection of components for glass processing",
+  "navbar_delivery_label": "Delivery",
+  "navbar_delivery_description": "Delivery information",
+  "navbar_vacancies_label": "Vacancies",
+  "navbar_vacancies_description": "Current vacancies in our company",
+  "navbar_contact_us_label": "Contact us",
+  "navbar_contact_us_description": "Contact us via the feedback form",
+  "navbar_posts": "Articles",
+  "navbar_news_label": "News",
+  "navbar_news_description": "Articles and news",
+  "navbar_reports_label": "Reports",
+  "navbar_reports_description": "Analysis and reports",
+  "navbar_seminars_label": "Seminars",
+  "navbar_seminars_description": "Our upcoming seminars",
+
+  "home_hero_title": "Skloresurs",
+  "home_hero_description": "Modern glass processing production in accordance with European standards",
+  "home_hero_details": "The company \"Skloresurs\" has 17 years of experience in the field of architectural and interior glazing.",
+  "home_hero_slogan": "Professionalism. Transparency. Innovation.",
+  "home_hero_mission_title": "Company mission",
+  "home_hero_mission_description": "Modern glass processing technologies to realize your dreams. Look at the world with pleasure!",
+
+  "home_target_area": "Total production area of 17,600 m²",
+  "home_target_employees": "About 300 employees",
+  "home_target_location": "Two production sites",
+  "home_target_products": "More than 50,000 m² of products per month",
+  "home_target_projects": "More than 200 projects per year",
+  "home_target_types": "Over 60 types of glass in stock",
+
+  "home_certificates": "The quality of our company's products is verified by the German institute IFT Rosenheim",
+
+  "home_quality_guide_title": "Quality guide",
+  "home_quality_guide_description": "The Guide defines the tolerances and deviations of the main parameters of our products. The guide is based on the standards listed here and the capabilities of modern equipment.",
+  "home_quality_guide_button": "View",
+
+  "home_news_title": "News",
+  "home_news_show_all": "All news",
+  "home_news_read_more": "Read more",
+
+  "home_projects_title": "Projects",
+  "home_projects_description": "Over the years of experience in glass processing, we have successfully implemented a number of impressive projects in collaboration with reliable partners. Learn more about our sites that not only transform the face of modern glazing but also help preserve the environment",
+  "home_projects_button": "All projects",
+
+  "home_contact_us_title_1": "We will be in",
+  "home_contact_us_title_2": " touch",
+  "home_contact_us_telephone": "Phone",
+  "home_contact_us_button": "Send",
+  "home_contact_us_button_loading": "Sending...",
+  "home_contact_us_button_success": "Your message has been successfully sent",
+  "home_contact_us_button_error": "Message sending error. Please try again later.",
+  "home_contact_us_errors_required": "This field is required",
+  "home_contact_us_errors_invalid_email": "Invalid email address",
+
+  "catalog_monoglass": "Monoglass",
+  "catalog_double_glazing": "Insulating glass units",
+
+  "delivery_p1": "We understand the importance of timely and safe delivery, so our transport department is equipped with modern vehicles with manipulators. This allows safe loading and unloading of glass units of various sizes and weights, even in places with limited access.",
+  "delivery_p2": "The glass units are securely packed to protect against damage during transportation and firmly fixed on the vehicle, minimizing risks.",
+  "delivery_p3": "Our drivers have extensive experience on routes of varying complexity, which helps reduce delivery time and ensures high-quality transportation of products.",
+
+  "productions_playlist_title": "Playlist",
+
+  "reports_year": "Year",
+  "reports_auditory": "Audit report",
+  "reports_financial": "Financial report",
+
+  "vacancies_read_more": "More details",
+
+  "footer_address_title": "Address",
+  "footer_address_p1": "Ukraine",
+  "footer_address_p2": "Dubno",
+  "footer_address_p3": "105 Semydubskа St.",
+  "footer_contact_title": "Contacts",
+  "footer_contact_telephone": "Phone"
 }

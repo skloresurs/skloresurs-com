@@ -1,0 +1,114 @@
+---
+import Playlist from "@/components/Playlist.astro";
+import TypedText from "@/components/TypedText";
+import PrimaryLinkButton from "@/components/ui/PrimaryLinkButton.astro";
+import Layout from "@/layouts/Layout.astro";
+import { localizeHref } from "@/paraglide/runtime";
+import type { Productions } from "@/types/productions";
+import directus, { getCmsAssetURL } from "@/utils/cms";
+import { readItems } from "@directus/sdk";
+
+const position = Astro.params.position;
+const alt = Astro.url.searchParams.has("alt");
+
+const [production] = await directus.request(
+  readItems("skloresurs_productions", {
+    limit: 1,
+    filter: {
+      position: {
+        _nnull: true,
+        _eq: Number(position),
+      },
+    },
+    deep: {
+      translations: {
+        limit: 1,
+        _filter: {
+          locales_code: { _eq: Astro.currentLocale ?? "uk" },
+        },
+      },
+      alternative: {
+        translations: {
+          limit: 1,
+          _filter: {
+            locales_code: { _eq: Astro.currentLocale ?? "uk" },
+          },
+        },
+      },
+    },
+    fields: [
+      "*",
+      {
+        translations: ["*"],
+        alternative: ["*", { translations: ["*"] }],
+      },
+    ],
+  }),
+);
+
+if (!production)
+  return new Response(null, {
+    status: 404,
+  });
+
+const data: [Productions, Productions | null] = [
+  production,
+  production.alternative,
+];
+if (alt && data[1]) [data[1], data[0]] = [data[0], data[1]];
+---
+
+<Layout
+  hideFooter
+  title={data[0].translations?.at(0)?.title}
+  description={data[0].translations?.at(0)?.description ?? ""}
+>
+  <video
+    class="absolute inset-0 -z-50 size-full object-cover"
+    autoplay
+    muted
+    loop
+  >
+    {
+      data[0].video_av1 && (
+        <source
+          type='video/webm; codecs="av01.0.04M.08"; profiles="isom,av01,iso2,mp41"'
+          src={getCmsAssetURL(data[0].video_av1, "video.webm")}
+        />
+      )
+    }
+    <source
+      type="video/mp4"
+      src={getCmsAssetURL(data[0].video_mp4, "video.mp4")}
+    />
+  </video>
+  <div class="absolute inset-0 -z-40 size-full bg-gradient-to-r from-black">
+  </div>
+  <div
+    class="absolute inset-x-6 top-1/2 flex -translate-y-1/2 flex-col gap-8 md:right-1/2 lg:right-2/3 z-10"
+  >
+    <h1>
+      <TypedText
+        client:load
+        label={data[0].translations?.at(0)?.title ?? ""}
+        typeSpeed={50}
+      />
+    </h1>
+    <p>
+      <TypedText
+        client:load
+        label={data[0].translations?.at(0)?.description ?? ""}
+        typeSpeed={5}
+      />
+    </p>
+    {
+      data[1] && (
+        <PrimaryLinkButton
+          href={localizeHref(`/productions/${position}${alt ? "" : "?alt"}`)}
+          label={data[1].translations?.at(0)?.title ?? ""}
+        />
+      )
+    }
+  </div>
+  <Playlist />
+</Layout>

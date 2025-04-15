@@ -1,0 +1,31 @@
+import type { Brand } from "./brand";
+import type { Catalog, CatalogTranslations } from "./catalog";
+import type { Certificate } from "./certificate";
+import type { Feedback } from "./feedback";
+import type { News, NewsTranslations } from "./news";
+import type { Productions, ProductionsTranslations } from "./productions";
+import type { Project, ProjectTranslations } from "./project";
+import type { QualityBook } from "./quality-book";
+import type { Report } from "./report";
+import type { Seminars, SeminarsTranslations } from "./seminars";
+import type { Vacancy, VacancyTranslations } from "./vacancy";
+
+export type CMSSchema = {
+  skloresurs_brands: Brand[];
+  skloresurs_certificates: Certificate[];
+  skloresurs_productions: Productions[];
+  skloresurs_productions_translations: ProductionsTranslations[];
+  skloresurs_quality_book: QualityBook;
+  skloresurs_seminars: Seminars;
+  skloresurs_seminars_translations: SeminarsTranslations[];
+  skloresurs_reports: Report[];
+  skloresurs_catalog: Catalog[];
+  skloresurs_catalog_translations: CatalogTranslations[];
+  skloresurs_vacancies: Vacancy[];
+  skloresurs_vacancies_translations: VacancyTranslations[];
+  skloresurs_news: News[];
+  skloresurs_news_translations: NewsTranslations[];
+  skloresurs_projects: Project[];
+  skloresurs_projects_translations: ProjectTranslations[];
+  skloresurs_feedback: Feedback[];
+};

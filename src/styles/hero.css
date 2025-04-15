@@ -1,3 +1,5 @@
+@reference "./global.css";
+
 .glassmain {
   display: flex;
   overflow: hidden;

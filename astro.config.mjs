@@ -1,4 +1,6 @@
 // @ts-check
+
+import partytown from "@astrojs/partytown";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
@@ -42,6 +44,11 @@ export default defineConfig({
       i18n: {
         locales,
         defaultLocale,
+      },
+    }),
+    partytown({
+      config: {
+        forward: ["dataLayer.push", "gtag"],
       },
     }),
     icon(),

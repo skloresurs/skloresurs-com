@@ -1,42 +1,66 @@
 ---
 import "@/styles/global.css";
 import { ClientRouter } from "astro:transitions";
+import Footer from "@/components/Footer.astro";
+import Navbar from "@/components/navbar/Navbar.astro";
+import { getLocale } from "@/paraglide/runtime";
+import LiveChat from "@/scripts/LiveChat.astro";
 import generateSeoData from "@/utils/seo";
+import GoogleAnalytics from "@astro-kits/google-analytics";
+import { GoogleTagmanagerPartytown } from "@digi4care/astro-google-tagmanager";
 import { SEO } from "astro-seo";
 import ProgressBar from "astro-vtbot/components/ProgressBar.astro";
-import i18n from "i18next";
 
 const { pathname } = Astro.url;
 
 interface Props {
   title?: string;
   description?: string;
+  hideFooter?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, hideFooter } = Astro.props;
 
 const seo = generateSeoData({
   title,
   description,
   pathname,
-  locale: i18n.language,
 });
 ---
 
 <!doctype html>
-<html lang={i18n.language}>
+<html lang={getLocale()}>
 	<head>
+		<script
+			type="text/javascript"
+			src="https://app.termly.io/resource-blocker/7c598e80-a00e-49eb-bf87-a41eecfbfc27?autoBlock=on"
+		></script>
 		<SEO {...seo} />
 		<meta name="generator" content={Astro.generator} />
 		<ClientRouter />
 		<ProgressBar />
+		<GoogleAnalytics />
+		<GoogleTagmanagerPartytown id={import.meta.env.G_TAG_MANAGER} />
+		<LiveChat />
 	</head>
 
-	<body>
-		<slot />
+	<body class="bg-background text-white flex flex-col min-h-dvh">
+		<div class="flex-1">
+			<Navbar />
+			<main>
+				<slot />
+			</main>
+		</div>
+		{!hideFooter && <Footer />}
 	</body>
 </html>
 
+<script is:inline src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script is:inline>
+	document.addEventListener("astro:page-load", async () => {
+		AOS.init();
+	});
+</script>
 <script src="../../node_modules/preline/preline.js"></script>
 <script>
 	document.addEventListener("astro:page-load", async () => {

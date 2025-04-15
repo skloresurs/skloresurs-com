@@ -1,0 +1,55 @@
+---
+import CatalogItem from "@/components/CatalogItem.astro";
+import Layout from "@/layouts/Layout.astro";
+import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
+import directus from "@/utils/cms";
+import { readItems } from "@directus/sdk";
+import { filter, map } from "remeda";
+
+const catalogs = await directus.request(
+  readItems("skloresurs_catalog", {
+    deep: {
+      translations: {
+        limit: 1,
+        _filter: {
+          locales_code: { _eq: getLocale() },
+        },
+      },
+    },
+    fields: ["*", { translations: ["*"] }],
+  }),
+);
+
+const getLabel = (category: string) => {
+  switch (category) {
+    case "double-glazing":
+      return m.catalog_double_glazing();
+    case "monoglass":
+      return m.catalog_monoglass();
+    default:
+      return "";
+  }
+};
+---
+
+<Layout
+  title={m.meta_catalog_title()}
+  description={m.meta_catalog_description()}
+>
+  {
+    map(["double-glazing", "monoglass"], (category) => (
+      <div class="mb-16 last:mb-0">
+        <h2 class="text-center mb-4">{getLabel(category)}</h2>
+        <div class="mx-auto grid max-w-6xl grid-cols-1 gap-4 px-4">
+          {map(
+            filter(catalogs, (el) => el.category === category),
+            (catalog) => (
+              <CatalogItem catalog={catalog} />
+            ),
+          )}
+        </div>
+      </div>
+    ))
+  }
+</Layout>

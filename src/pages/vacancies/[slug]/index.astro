@@ -1,0 +1,72 @@
+---
+import { Image } from "astro:assets";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import Layout from "@/layouts/Layout.astro";
+import { m } from "@/paraglide/messages";
+import { getLocale, localizeHref } from "@/paraglide/runtime";
+import directus, { getCmsAssetURL } from "@/utils/cms";
+import { readItem } from "@directus/sdk";
+
+const { slug } = Astro.params;
+
+const vacancy = await directus
+  .request(
+    readItem("skloresurs_vacancies", slug ?? "", {
+      filter: {
+        status: {
+          _eq: "published",
+        },
+      },
+      deep: {
+        translations: {
+          limit: 1,
+          _filter: {
+            locales_code: { _eq: getLocale() },
+          },
+        },
+      },
+      fields: ["*", { translations: ["*"], image: ["*"] }],
+    }),
+  )
+  .catch(() => null);
+
+if (!vacancy)
+  return new Response(null, {
+    status: 404,
+  });
+---
+
+<Layout
+  title={vacancy.translations?.at(0)?.title}
+  description={vacancy.translations?.at(0)?.description ?? ""}
+>
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="w-full relative">
+      <Image
+        src={getCmsAssetURL(vacancy.image.id, "image.webp")}
+        alt={vacancy.translations?.at(0)?.title ?? ""}
+        width={vacancy.image.width}
+        height={vacancy.image.height}
+        class="absolute inset-0 w-full h-full object-cover object-center -z-10 blur-sm brightness-50"
+        transition:name={`vacancy-${vacancy.slug}-thumbnail`}
+      />
+      <h1
+        class="text-center py-12 shadow-2xl"
+        transition:name={`vacancy-${vacancy.slug}-title`}
+      >
+        {vacancy.translations?.at(0)?.title}
+      </h1>
+    </div>
+    <Breadcrumbs
+      className="my-2"
+      elements={[
+        {
+          label: m.meta_vacancies_title(),
+          href: localizeHref("/vacancies"),
+        },
+        { label: vacancy.translations?.at(0)?.title ?? "" },
+      ]}
+    />
+    <div class="content" set:html={vacancy.translations?.at(0)?.body} />
+  </div>
+</Layout>

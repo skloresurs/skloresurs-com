@@ -1,0 +1,103 @@
+---
+import { Image } from "astro:assets";
+import Pagination from "@/components/ui/Pagination.astro";
+import Layout from "@/layouts/Layout.astro";
+import { m } from "@/paraglide/messages";
+import { getLocale, localizeHref } from "@/paraglide/runtime";
+import directus, { getCmsAssetURL } from "@/utils/cms";
+import { aggregate, readItems } from "@directus/sdk";
+import { firstBy, identity, map } from "remeda";
+
+const perPage = 6;
+
+const page = firstBy(
+  [1, Number(Astro.url.searchParams.get("page"))],
+  [identity(), "desc"],
+);
+const offset = (page - 1) * perPage;
+
+const filter = {
+  status: {
+    _eq: "published",
+  },
+};
+
+const news = await directus.request(
+  readItems("skloresurs_news", {
+    limit: perPage,
+    offset,
+    filter,
+    sort: ["-date_created"],
+    deep: {
+      translations: {
+        limit: 1,
+        _filter: {
+          locales_code: { _eq: getLocale() },
+        },
+      },
+    },
+    fields: ["*", { translations: ["*"], thumbnail: ["*"] }],
+  }),
+);
+
+const totalReq = await directus.request(
+  aggregate("skloresurs_news", {
+    aggregate: {
+      count: "*",
+    },
+    filter,
+  }),
+);
+
+const total = Number(totalReq[0].count);
+---
+
+<Layout title={m.meta_news_title()} description={m.meta_news_description()}>
+  <div class="mx-auto max-w-6xl px-5">
+    <h1 class="mb-5 text-center">{m.meta_news_title()}</h1>
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {
+        map(news, (e) => (
+          <a
+            href={
+              e.translations?.at(0)?.external_url ??
+              localizeHref(`/news/${e.slug}`)
+            }
+            target={e.translations?.at(0)?.external_url ? "_blank" : "_self"}
+            class="border p-6 rounded-md border-background-100 group hover:bg-background-600 hover:border-primary-500 duration-300"
+            data-aos="fade-down"
+            data-aos-anchor-placement="top-bottom"
+          >
+            <Image
+              src={getCmsAssetURL(e.thumbnail.id, "image.webp")}
+              width={e.thumbnail.width}
+              height={e.thumbnail.height}
+              alt={e.translations?.at(0)?.title ?? ""}
+              class="w-full object-cover object-top aspect-video rounded"
+              loading="eager"
+              transition:name={`news-${e.slug}-thumbnail`}
+            />
+            <h2
+              class="mt-4 text-lg text-balance"
+              data-aos="fade-right"
+              data-aos-anchor-placement="top-bottom"
+              data-aos-delay="100"
+              transition:name={`news-${e.slug}-title`}
+            >
+              {e.translations?.at(0)?.title}
+            </h2>
+            <p
+              class="mt-4 text-muted text-sm"
+              data-aos="fade-right"
+              data-aos-anchor-placement="top-bottom"
+              data-aos-delay="200"
+            >
+              {e.translations?.at(0)?.description}
+            </p>
+          </a>
+        ))
+      }
+    </div>
+    <Pagination total={total} perPage={perPage} />
+  </div>
+</Layout>

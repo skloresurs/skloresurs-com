@@ -1,0 +1,74 @@
+---
+import "@/styles/cms.css";
+
+import { Image } from "astro:assets";
+import Breadcrumbs from "@/components/Breadcrumbs.astro";
+import Layout from "@/layouts/Layout.astro";
+import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
+import { localizeHref } from "@/paraglide/runtime";
+import directus, { getCmsAssetURL } from "@/utils/cms";
+import { readItem } from "@directus/sdk";
+
+const news = await directus
+  .request(
+    readItem("skloresurs_news", Astro.params.slug ?? "", {
+      deep: {
+        translations: {
+          limit: 1,
+          _filter: {
+            locales_code: { _eq: getLocale() },
+          },
+        },
+      },
+      fields: ["*", { translations: ["*"], thumbnail: ["*"] }],
+    }),
+  )
+  .catch(() => null);
+
+if (!news)
+  return new Response(null, {
+    status: 404,
+  });
+
+const extenalUrl = news.translations?.at(0)?.external_url;
+---
+
+<script is:inline define:vars={{ extenalUrl }}>
+  if (extenalUrl) window.location.href = extenalUrl;
+</script>
+
+<Layout
+  title={news.translations?.at(0)?.title}
+  description={news.translations?.at(0)?.description ?? ""}
+>
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="relative">
+      <Image
+        src={getCmsAssetURL(news.thumbnail.id, "image.webp")}
+        width={news.thumbnail.width}
+        height={news.thumbnail.height}
+        alt={news.translations?.at(0)?.title ?? ""}
+        class="absolute inset-0 w-full h-full object-cover object-center -z-10 blur-sm brightness-50"
+        transition:name={`news-${news.slug}-thumbnail`}
+      />
+      <h1
+        class="mb-2 text-center text-balance px-6 py-16"
+        transition:name={`news-${news.slug}-title`}
+      >
+        {news.translations?.at(0)?.title}
+      </h1>
+    </div>
+    <Breadcrumbs
+      className="mb-5"
+      elements={[
+        {
+          label: m.meta_news_title(),
+          href: localizeHref("/news"),
+        },
+        { label: news.translations?.at(0)?.title ?? "" },
+      ]}
+    />
+    <div class="content" set:html={news.translations?.at(0)?.content} />
+  </div>
+</Layout>

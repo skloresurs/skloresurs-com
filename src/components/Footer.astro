@@ -1,0 +1,95 @@
+---
+import { Image } from "astro:assets";
+import { m } from "@/paraglide/messages";
+import { Icon } from "astro-icon/components";
+import BrandLogo from "./BrandLogo.astro";
+---
+
+<div
+  id="footer"
+  class="mx-auto mt-12 flex w-full max-w-6xl flex-col gap-2 px-6 text-muted mb-3"
+>
+  <div class="flex flex-col items-center justify-between gap-2 md:flex-row">
+    <div class="flex flex-col items-center gap-4 md:flex-row">
+      <BrandLogo width={150} loading="lazy" />
+      <Image
+        src="/logo/gualos.webp"
+        width={150}
+        height={60}
+        alt="Gualos"
+        loading="lazy"
+      />
+    </div>
+    <div
+      class="mt-6 flex flex-col items-start gap-2 md:mt-0 md:flex-row md:gap-20"
+    >
+      <div class="min-w-[100px]">
+        <h2 class="mb-2 text-base font-semibold uppercase">
+          {m.footer_contact_title()}
+        </h2>
+        <p>
+          E-mail:
+          <a
+            title="E-mail"
+            href="mailto:office@skloresurs.com"
+            class="m-0 h-min text-nowrap p-0 text-primary-100"
+          >
+            office@skloresurs.com
+          </a>
+        </p>
+        <p>
+          {m.footer_contact_telephone()}:
+          <a
+            title="Telephone"
+            href="tel:+38 (044) 355-05-99"
+            class="m-0 h-min text-nowrap p-0 text-primary-100"
+          >
+            +38 (044) 355-05-99
+          </a>
+        </p>
+      </div>
+      <div class="min-w-[100px]">
+        <h2 class="mb-2 text-base font-semibold uppercase">
+          {m.footer_address_title()}
+        </h2>
+        <p class="inline">
+          {m.footer_address_p1()}, {m.footer_address_p2()}
+        </p>
+        <p>{m.footer_address_p3()}</p>
+      </div>
+    </div>
+  </div>
+  <div class="my-2 h-0.5 w-full rounded-lg border-[1px] border-border"></div>
+  <div class="flex flex-row items-center justify-between gap-2">
+    <p class="text-xs text-muted">Skloresurs | Gualos</p>
+    <div class="flex flex-row items-center gap-4">
+      <a href="#" class="termly-display-preferences">Consent Preferences</a>
+      <a
+        href="https://www.facebook.com/skloresurs"
+        title="Facebook"
+        target="_blank"
+      >
+        <Icon
+          title="Facebook"
+          name="socials/facebook"
+          class="hover:text-primary duration-300"
+          width={28}
+          height={28}
+        />
+      </a>
+      <a
+        href="https://www.instagram.com/skloresurs"
+        title="Instagram"
+        target="_blank"
+      >
+        <Icon
+          title="Instagram"
+          name="socials/instagram"
+          class="hover:text-primary duration-300"
+          width={28}
+          height={28}
+        />
+      </a>
+    </div>
+  </div>
+</div>

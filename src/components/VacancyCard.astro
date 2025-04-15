@@ -1,0 +1,46 @@
+---
+import { Image } from "astro:assets";
+import { m } from "@/paraglide/messages";
+import { localizeHref } from "@/paraglide/runtime";
+import type { Vacancy } from "@/types/vacancy";
+import { getCmsAssetURL } from "@/utils/cms";
+
+interface Props {
+  vacancy: Vacancy;
+}
+
+const { vacancy } = Astro.props;
+---
+
+<div
+  class="group flex flex-col h-full shadow-sm rounded-md bg-background-600 shadow-background-600/70 overflow-hidden"
+>
+  <Image
+    src={getCmsAssetURL(vacancy.image.id, "image.webp")}
+    width={vacancy.image.width}
+    height={vacancy.image.height}
+    class="h-52 object-cover"
+    alt={vacancy.translations?.at(0)?.title ?? ""}
+    transition:name={`vacancy-${vacancy.slug}-thumbnail`}
+    loading="lazy"
+  />
+  <div class="p-4 md:p-6">
+    <h2
+      class="text-xl font-semibold m-0"
+      transition:name={`vacancy-${vacancy.slug}-title`}
+    >
+      {vacancy.translations?.at(0)?.title}
+    </h2>
+    <p class="mt-3 text-muted">
+      {vacancy.translations?.at(0)?.description}
+    </p>
+  </div>
+  <div class="mt-auto flex border-t border-background-400">
+    <a
+      class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium shadow-sm focus:outline-none disabled:opacity-50 disabled:pointer-events-none hover:bg-primary focus:bg-primary duration-300"
+      href={localizeHref(`/vacancies/${vacancy.slug}`)}
+    >
+      {m.vacancies_read_more()}
+    </a>
+  </div>
+</div>

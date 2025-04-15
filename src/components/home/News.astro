@@ -1,0 +1,56 @@
+---
+import { m } from "@/paraglide/messages";
+import { getLocale, localizeHref, localizeUrl } from "@/paraglide/runtime";
+import directus from "@/utils/cms";
+import { readItems } from "@directus/sdk";
+import { ChevronRight } from "lucide-astro";
+import { map } from "remeda";
+import PrimaryLink from "../ui/PrimaryLink.astro";
+import PrimaryLinkButton from "../ui/PrimaryLinkButton.astro";
+import NewsCard from "./NewsCard.astro";
+
+const news = await directus.request(
+  readItems("skloresurs_news", {
+    limit: 3,
+    filter: {
+      status: {
+        _eq: "published",
+      },
+    },
+    sort: ["-date_created"],
+    deep: {
+      translations: {
+        limit: 1,
+        _filter: {
+          locales_code: { _eq: getLocale() },
+        },
+      },
+    },
+    fields: ["*", { translations: ["*"], thumbnail: ["*"] }],
+  }),
+);
+---
+
+<section id="news" class="mx-auto mb-16 mt-20 w-full max-w-6xl px-6">
+  <div class="flex flex-row items-center justify-between">
+    <h2
+      data-aos="fade-right"
+      data-aos-anchor-placement="top-bottom text-primary-100"
+    >
+      {m.home_news_title()}
+    </h2>
+    <PrimaryLink
+      href={localizeHref("/news")}
+      label={m.home_news_show_all()}
+      className="hidden md:inline-flex"><ChevronRight /></PrimaryLink
+    >
+  </div>
+  <div class="mt-4 grid grid-cols-1 gap-6 md:grid-cols-3">
+    {map(news, (e, i) => <NewsCard news={e} index={i} />)}
+  </div>
+  <PrimaryLinkButton
+    href={localizeHref("/news")}
+    label={m.home_news_show_all()}
+    className="md:hidden"><ChevronRight /></PrimaryLinkButton
+  >
+</section>

@@ -1,0 +1,77 @@
+---
+import { m } from "@/paraglide/messages";
+import { getLocale, localizeHref } from "@/paraglide/runtime";
+import directus from "@/utils/cms";
+import { readItems } from "@directus/sdk";
+import { ChevronLeft, X } from "lucide-astro";
+import { map } from "remeda";
+
+const productions = await directus.request(
+  readItems("skloresurs_productions", {
+    filter: {
+      position: {
+        _nnull: true,
+      },
+    },
+    deep: {
+      translations: {
+        limit: 1,
+        _filter: {
+          locales_code: { _eq: getLocale() },
+        },
+      },
+    },
+    fields: ["*", { translations: ["title", "description"] }],
+    sort: ["position"],
+  }),
+);
+---
+
+<button
+  type="button"
+  class="absolute right-4 top-1/2 -translate-y-1/2"
+  aria-haspopup="dialog"
+  aria-expanded="false"
+  aria-controls="hs-offcanvas-playlist"
+  data-hs-overlay="#hs-offcanvas-playlist"
+>
+  <ChevronLeft size={50} />
+</button>
+<div
+  id="hs-offcanvas-playlist"
+  class="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full fixed top-0 end-0 transition-all duration-300 transform h-full max-w-lg w-full z-[80] border-s bg-background border-background-400"
+  role="dialog"
+  tabindex="-1"
+  aria-labelledby="hs-offcanvas-playlist-label"
+>
+  <div
+    class="flex justify-between items-center py-3 px-4 border-b border-background-400"
+  >
+    <h3 id="hs-offcanvas-playlist-label" class="font-bold">
+      {m.productions_playlist_title()}
+    </h3>
+    <button
+      type="button"
+      class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-none focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
+      aria-label="Close"
+      data-hs-overlay="#hs-offcanvas-playlist"
+    >
+      <span class="sr-only">Close</span>
+      <X size={16} />
+    </button>
+  </div>
+  <div class="p-4 flex flex-col gap-2">
+    {
+      map(productions, (production) => (
+        <a
+          type="button"
+          href={localizeHref(`/productions/${production.position}`)}
+          class="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-primary-600 text-primary-100 hover:bg-background-600 duration-500 disabled:opacity-50 disabled:pointer-events-none"
+          data-hs-overlay="#hs-offcanvas-playlist"
+        >
+          {production.position}. {production.translations?.at(0)?.title}
+        </a>
+      ))
+    }
+  </div>
+</div>

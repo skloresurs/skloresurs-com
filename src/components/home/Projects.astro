@@ -1,0 +1,48 @@
+---
+import { Image } from "astro:assets";
+import { m } from "@/paraglide/messages";
+import { localizeHref } from "@/paraglide/runtime";
+import { ChevronRight } from "lucide-astro";
+import PrimaryLinkButton from "../ui/PrimaryLinkButton.astro";
+---
+
+<div id="projects" class="mt-6 bg-background-600">
+  <div class="relative mx-auto flex max-w-6xl flex-col gap-6 px-6 md:flex-row">
+    <div class="flex flex-col gap-4 pt-6 md:w-1/2 md:pb-20">
+      <h2
+        class="text-primary-100"
+        data-aos="fade-right"
+        data-aos-anchor-placement="top-bottom"
+      >
+        {m.home_projects_title()}
+      </h2>
+      <p
+        class="text-muted"
+        data-aos="fade-right"
+        data-aos-anchor-placement="top-bottom"
+        data-aos-delay="100"
+      >
+        {m.home_projects_description()}
+      </p>
+      <PrimaryLinkButton
+        href={localizeHref("/projects")}
+        label={m.home_projects_button()}
+        data-aos="fade-right"
+        data-aos-anchor-placement="top-bottom"
+        data-aos-delay="200"
+      >
+        <ChevronRight />
+      </PrimaryLinkButton>
+    </div>
+    <div class="relative w-full md:w-1/2">
+      <Image
+        src="/projects.webp"
+        alt=""
+        height={400}
+        width={700}
+        loading="lazy"
+        class="bottom-0 w-full object-cover object-bottom md:absolute"
+      />
+    </div>
+  </div>
+</div>

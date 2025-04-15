@@ -5,10 +5,8 @@
 @import "preline/variants.css";
 @source "../../node_modules/preline/dist/*.js";
 
-@plugin 'tailwind-scrollbar';
-
 /* ===== Global ===== */
-:root {
+@theme {
   --color-background-50: #424242;
   --color-background-100: #3f3f3f;
   --color-background-200: #373737;
@@ -59,10 +57,11 @@
 }
 
 /* ===== Scrollbar ===== */
-/* * {
-  @apply scrollbar-thin scrollbar-track-background scrollbar-thumb-primary scrollbar-thumb-rounded-full;
-} */
+* {
+  @apply [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-background [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-background-900;
+}
 
+/* ===== Styles ===== */
 h1 {
   @apply text-3xl md:text-4xl lg:text-5xl font-bold;
 }
@@ -85,6 +84,10 @@ h5 {
 
 h6 {
   @apply lg:text-lg font-medium;
+}
+
+button {
+  @apply cursor-pointer;
 }
 
 html,

@@ -1,0 +1,45 @@
+---
+import { getLocale } from "@/paraglide/runtime";
+import directus from "@/utils/cms";
+import { readItem } from "@directus/sdk";
+import ProjectCardClient from "./ProjectCardCarousel";
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+
+const project = await directus.request(
+  readItem("skloresurs_projects", id, {
+    deep: {
+      translations: {
+        limit: 1,
+        _filter: {
+          locales_code: { _eq: getLocale() },
+        },
+      },
+      location: {
+        translations: {
+          limit: 1,
+          _filter: {
+            locales_code: { _eq: getLocale() },
+          },
+        },
+      },
+    },
+    fields: [
+      "*",
+      {
+        thumbnail: ["*"],
+        translations: ["*"],
+        images: ["directus_files_id.*"],
+        glass_types: ["skloresurs_project_glasses_id.*"],
+        location: ["*", "translations.*"],
+      },
+    ],
+  }),
+);
+---
+
+<ProjectCardClient client:load project={project} />

@@ -1,0 +1,40 @@
+---
+import VacancyCard from "@/components/VacancyCard.astro";
+import Layout from "@/layouts/Layout.astro";
+import { m } from "@/paraglide/messages";
+import { getLocale } from "@/paraglide/runtime";
+import directus from "@/utils/cms";
+import { readItems } from "@directus/sdk";
+import { map } from "remeda";
+
+const vacancies = await directus.request(
+  readItems("skloresurs_vacancies", {
+    filter: {
+      status: {
+        _eq: "published",
+      },
+    },
+    deep: {
+      translations: {
+        limit: 1,
+        _filter: {
+          locales_code: { _eq: getLocale() },
+        },
+      },
+    },
+    fields: ["*", { translations: ["*"], image: ["*"] }],
+  }),
+);
+---
+
+<Layout
+  title={m.meta_vacancies_title()}
+  description={m.meta_vacancies_description()}
+>
+  <div class="mx-auto max-w-6xl px-5">
+    <h1 class="mb-5 text-center">{m.meta_vacancies_title()}</h1>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {map(vacancies, (vacancy) => <VacancyCard vacancy={vacancy} />)}
+    </div>
+  </div>
+</Layout>

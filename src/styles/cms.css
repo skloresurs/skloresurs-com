@@ -1,0 +1,48 @@
+@reference "./global.css";
+
+.content a {
+  @apply text-primary hover:underline duration-300;
+}
+
+.content h2,
+h3,
+h4 {
+  @apply mt-10 mb-5;
+}
+
+.content h5,
+h6 {
+  @apply mt-5 mb-2;
+}
+.content * {
+  @apply indent-4;
+}
+
+.content figure {
+  @apply w-max mx-auto;
+}
+
+.content ul {
+  @apply list-disc;
+}
+
+.content ol {
+  @apply list-decimal;
+}
+
+.content li {
+  @apply ml-4 indent-0;
+}
+
+.content p:has(img) {
+  @apply flex flex-row gap-2;
+}
+
+.content p,
+ul {
+  @apply py-1 list-inside;
+}
+
+.content a {
+  @apply text-primary-100;
+}
