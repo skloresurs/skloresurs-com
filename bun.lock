@@ -51,6 +51,8 @@
     },
   },
   "trustedDependencies": [
+    "sharp",
+    "esbuild",
     "@biomejs/biome",
   ],
   "packages": {
