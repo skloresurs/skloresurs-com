@@ -35,6 +35,13 @@ const seo = generateSeoData({
 			type="text/javascript"
 			src="https://app.termly.io/resource-blocker/7c598e80-a00e-49eb-bf87-a41eecfbfc27?autoBlock=on"
 		></script>
+
+		<script>
+			import AOS from "aos";
+			document.addEventListener("astro:page-load", async () => {
+				AOS.init();
+			});
+		</script>
 		<SEO {...seo} />
 		<meta name="generator" content={Astro.generator} />
 		<ClientRouter />
@@ -55,12 +62,6 @@ const seo = generateSeoData({
 	</body>
 </html>
 
-<script is:inline src="https://unpkg.com/aos@next/dist/aos.js"></script>
-<script is:inline>
-	document.addEventListener("astro:page-load", async () => {
-		AOS.init();
-	});
-</script>
 <script src="../../node_modules/preline/preline.js"></script>
 <script>
 	document.addEventListener("astro:page-load", async () => {

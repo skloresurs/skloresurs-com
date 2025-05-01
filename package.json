@@ -7,7 +7,7 @@
     "build": "paraglide-js compile --project ./project.inlang --outdir ./src\\paraglide && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "biome check --write .",
+    "lint": "biome check --write --vcs-enabled=true .",
     "prepare": "husky"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "@tailwindcss/vite": "^4.1.4",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "aos": "^2.3.4",
     "astro": "^5.6.2",
     "astro-compressor": "^1.0.0",
     "astro-favicons": "^3.1.5",
@@ -49,13 +50,16 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@inlang/paraglide-js": "2.0.11",
+    "@types/aos": "^3.0.7",
     "@types/bun": "1.2.9",
     "cz-conventional-changelog": "3.3.0",
     "husky": "9.1.7",
     "lint-staged": "15.5.1",
     "tsc-files": "1.1.4"
   },
-  "engines": { "node": "22" },
+  "engines": {
+    "node": "22"
+  },
   "trustedDependencies": ["@biomejs/biome", "esbuild", "sharp"],
   "config": {
     "commitizen": {
