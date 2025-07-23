@@ -1,10 +1,10 @@
 ---
-import directus from "@/utils/cms";
 import { readItems } from "@directus/sdk";
+import directus from "@/utils/cms";
 import PartnersCarousel from "./PartnersCarousel";
 
 const partners = await directus.request(
-  readItems("skloresurs_brands", {
+  readItems("skloresurs_partners", {
     sort: ["name"],
   }),
 );

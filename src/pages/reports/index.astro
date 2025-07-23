@@ -1,9 +1,9 @@
 ---
+import { readItems } from "@directus/sdk";
 import ReportCard from "@/components/ReportCard.astro";
 import Layout from "@/layouts/Layout.astro";
 import { m } from "@/paraglide/messages";
 import directus, { getCmsAssetURL } from "@/utils/cms";
-import { readItems } from "@directus/sdk";
 
 const reports = await directus.request(
   readItems("skloresurs_reports", {
@@ -31,17 +31,11 @@ const reports = await directus.request(
             </h2>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
               <ReportCard
-                href={getCmsAssetURL(
-                  e.auditory,
-                  `report-auditory-${e.year}.pdf`,
-                )}
+                href={getCmsAssetURL(e.audit, `report-audit-${e.year}.pdf`)}
                 title={m.reports_auditory()}
               />
               <ReportCard
-                href={getCmsAssetURL(
-                  e.financial,
-                  `report-financial-${e.year}.pdf`,
-                )}
+                href={getCmsAssetURL(e.finance, `report-finance-${e.year}.pdf`)}
                 title={m.reports_financial()}
               />
             </div>

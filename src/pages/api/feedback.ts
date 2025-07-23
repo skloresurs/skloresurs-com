@@ -1,8 +1,8 @@
-import directus from "@/utils/cms";
 import { createItem, withToken } from "@directus/sdk";
 import type { APIRoute } from "astro";
 import ky from "ky";
 import { endsWith } from "remeda";
+import directus from "@/utils/cms";
 
 const restrictedEmailDomains = ["sigismail.com"];
 
@@ -57,7 +57,7 @@ export const POST: APIRoute = async ({ request }) => {
   await directus.request(
     withToken(
       import.meta.env.CMS_TOKEN,
-      createItem("skloresurs_feedback", {
+      createItem("skloresurs_feedbacks", {
         name,
         email,
         phone: phone ?? null,

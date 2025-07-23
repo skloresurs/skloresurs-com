@@ -6,5 +6,5 @@ export type Seminars = {
 };
 
 export type SeminarsTranslations = Translations & {
-  page: string;
+  body: string;
 };

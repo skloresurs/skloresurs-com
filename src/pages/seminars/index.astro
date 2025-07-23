@@ -1,25 +1,27 @@
 ---
+import "@/styles/cms.css";
+
+import { readSingleton } from "@directus/sdk";
 import Layout from "@/layouts/Layout.astro";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
 import directus from "@/utils/cms";
-import { readSingleton } from "@directus/sdk";
 
 const page = directus
   .request(
-    readSingleton("skloresurs_seminars", {
+    readSingleton("skloresurs_seminar", {
       deep: {
         translations: {
           limit: 1,
           _filter: {
-            locales_code: { _eq: getLocale() },
+            localizations_code: { _eq: getLocale() },
           },
         },
       },
       fields: [{ translations: ["*"] }],
     }),
   )
-  .then(data => data?.translations?.at(0)?.page);
+  .then(data => data?.translations?.at(0)?.body);
 ---
 
 <Layout

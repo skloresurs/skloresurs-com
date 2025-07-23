@@ -1,11 +1,15 @@
-import type { Project } from "@/types/project";
-import { getCmsAssetURL } from "@/utils/cms";
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/captions.css";
+import "yet-another-react-lightbox/plugins/counter.css";
+
 import { Calendar, Info, MapPin, ZoomIn } from "lucide-react";
 import { useState } from "react";
 import { map } from "remeda";
 import Lightbox from "yet-another-react-lightbox";
 import Captions from "yet-another-react-lightbox/plugins/captions";
 import Counter from "yet-another-react-lightbox/plugins/counter";
+import type { Project } from "@/types/project";
+import { getCmsAssetURL } from "@/utils/cms";
 
 interface IProps {
   project: Project;

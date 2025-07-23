@@ -3,7 +3,7 @@ import type { Translations } from "./base";
 export type Vacancy = {
   slug: string;
   status: string;
-  image: {
+  thumbnail: {
     id: string;
     width: number;
     height: number;

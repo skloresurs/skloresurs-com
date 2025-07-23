@@ -1,10 +1,10 @@
 ---
-import { m } from "@/paraglide/messages";
-import { getLocale, localizeHref, localizeUrl } from "@/paraglide/runtime";
-import directus from "@/utils/cms";
 import { readItems } from "@directus/sdk";
 import { ChevronRight } from "lucide-astro";
 import { map } from "remeda";
+import { m } from "@/paraglide/messages";
+import { getLocale, localizeHref, localizeUrl } from "@/paraglide/runtime";
+import directus from "@/utils/cms";
 import PrimaryLink from "../ui/PrimaryLink.astro";
 import PrimaryLinkButton from "../ui/PrimaryLinkButton.astro";
 import NewsCard from "./NewsCard.astro";
@@ -22,7 +22,7 @@ const news = await directus.request(
       translations: {
         limit: 1,
         _filter: {
-          locales_code: { _eq: getLocale() },
+          localizations_code: { _eq: getLocale() },
         },
       },
     },

@@ -1,8 +1,8 @@
+import { motion, type ValueTransition } from "framer-motion";
 import cloud from "@/assets/cloud.png";
-import { motion } from "framer-motion";
 
 export default function HeroCloud() {
-  const transitionValues = {
+  const transitionValues: ValueTransition = {
     duration: 10,
     ease: "easeInOut",
     repeat: Number.POSITIVE_INFINITY,
@@ -19,12 +19,7 @@ export default function HeroCloud() {
         y: ["0rem", "0.5rem", "0rem", "0.5rem", "0rem", "0.5rem", "0rem"],
       }}
     >
-      <img
-        src={cloud.src}
-        alt=""
-        className="-z-50 absolute inset-x-0"
-        loading="lazy"
-      />
+      <img src={cloud.src} alt="" className="-z-50 absolute inset-x-0" loading="lazy" />
     </motion.div>
   );
 }

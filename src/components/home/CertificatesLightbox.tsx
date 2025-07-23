@@ -1,12 +1,12 @@
 "use client";
 
-import type { Certificate } from "@/types/certificate";
-import { getCmsAssetURL } from "@/utils/cms";
 import { ZoomIn } from "lucide-react";
 import { useState } from "react";
 import { map } from "remeda";
 import Lightbox from "yet-another-react-lightbox";
 import Counter from "yet-another-react-lightbox/plugins/counter";
+import type { Certificate } from "@/types/certificate";
+import { getCmsAssetURL } from "@/utils/cms";
 
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/counter.css";
@@ -23,7 +23,7 @@ export default function CertificatesLightbox({ certificates }: IProps) {
       <div className="relative aspect-[1/1.4] w-full overflow-hidden rounded-lg">
         <button type="button" onClick={() => setIsOpen(true)} className="group">
           <img
-            src={getCmsAssetURL(certificates[0].image, "certificate.webp")}
+            src={getCmsAssetURL(certificates[0].certificate, "certificate.webp")}
             alt=""
             className="h-full w-full object-cover duration-300 group-hover:brightness-50"
             loading="lazy"
@@ -42,7 +42,7 @@ export default function CertificatesLightbox({ certificates }: IProps) {
             style: { top: "unset", bottom: 0, left: "unset", right: 0 },
           },
         }}
-        slides={map(certificates, ({ image }) => ({
+        slides={map(certificates, ({ certificate: image }) => ({
           src: getCmsAssetURL(image, "certificate.webp"),
           alt: "Certificate",
         }))}

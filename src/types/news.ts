@@ -16,5 +16,5 @@ export type NewsTranslations = Translations & {
   title: string;
   description: string;
   external_url: string | null;
-  content: string | null;
+  body: string | null;
 };

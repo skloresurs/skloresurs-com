@@ -1,11 +1,11 @@
 ---
+import { readItems } from "@directus/sdk";
+import { filter, map } from "remeda";
 import CatalogItem from "@/components/CatalogItem.astro";
 import Layout from "@/layouts/Layout.astro";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
 import directus from "@/utils/cms";
-import { readItems } from "@directus/sdk";
-import { filter, map } from "remeda";
 
 const catalogs = await directus.request(
   readItems("skloresurs_catalog", {
@@ -13,7 +13,7 @@ const catalogs = await directus.request(
       translations: {
         limit: 1,
         _filter: {
-          locales_code: { _eq: getLocale() },
+          localizations_code: { _eq: getLocale() },
         },
       },
     },

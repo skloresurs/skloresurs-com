@@ -1,4 +1,4 @@
-export type QualityBook = {
+export type QualityGuide = {
   en: string;
   uk: string;
 };

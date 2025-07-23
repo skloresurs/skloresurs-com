@@ -1,19 +1,16 @@
 ---
 import { Image } from "astro:assets";
+import { aggregate, readItems } from "@directus/sdk";
+import { firstBy, identity, map } from "remeda";
 import Pagination from "@/components/ui/Pagination.astro";
 import Layout from "@/layouts/Layout.astro";
 import { m } from "@/paraglide/messages";
 import { getLocale, localizeHref } from "@/paraglide/runtime";
 import directus, { getCmsAssetURL } from "@/utils/cms";
-import { aggregate, readItems } from "@directus/sdk";
-import { firstBy, identity, map } from "remeda";
 
 const perPage = 6;
 
-const page = firstBy(
-  [1, Number(Astro.url.searchParams.get("page"))],
-  [identity(), "desc"],
-);
+const page = firstBy([1, Number(Astro.url.searchParams.get("page"))], [identity(), "desc"]);
 const offset = (page - 1) * perPage;
 
 const filter = {
@@ -32,7 +29,7 @@ const news = await directus.request(
       translations: {
         limit: 1,
         _filter: {
-          locales_code: { _eq: getLocale() },
+          localizations_code: { _eq: getLocale() },
         },
       },
     },

@@ -1,4 +1,3 @@
-import { m } from "@/paraglide/messages";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ky from "ky";
 import { AtSign, Phone } from "lucide-react";
@@ -7,12 +6,13 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-hook";
 import { useForm } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
+import { m } from "@/paraglide/messages";
 
 const schema = z.object({
-  name: z.string({ required_error: "required" }).min(1, "required"),
-  email: z.string({ required_error: "required" }).email("invalidEmail"),
-  phone: z.optional(z.string({ required_error: "required" })),
-  message: z.string({ required_error: "required" }).min(1, "required"),
+  name: z.string({ error: "required" }).min(1, "required"),
+  email: z.email("invalidEmail"),
+  phone: z.optional(z.string({ error: "required" })),
+  message: z.string({ error: "required" }).min(1, "required"),
 });
 
 type Schema = z.infer<typeof schema>;
@@ -36,13 +36,10 @@ interface IProps {
 
 export default function ContactUsForm({ locale }: IProps) {
   const [state, setState] = useState<State>("idle");
-  const { executeGoogleReCaptcha } = useGoogleReCaptcha(
-    import.meta.env.PUBLIC_G_RECAPTCHA_SITE_KEY,
-    {
-      hide: true,
-      language: locale,
-    },
-  );
+  const { executeGoogleReCaptcha } = useGoogleReCaptcha(import.meta.env.PUBLIC_G_RECAPTCHA_SITE_KEY, {
+    hide: true,
+    language: locale,
+  });
   const button = useMemo(() => {
     switch (state) {
       case "loading":
@@ -85,9 +82,7 @@ export default function ContactUsForm({ locale }: IProps) {
   const submit = async (value: Schema) => {
     if (state !== "idle") return;
     setState("loading");
-    const captcha = await executeGoogleReCaptcha("submit_contact_us").catch(
-      () => null,
-    );
+    const captcha = await executeGoogleReCaptcha("submit_contact_us").catch(() => null);
     if (!captcha) return setErrorState();
 
     const res = await ky
@@ -102,10 +97,7 @@ export default function ContactUsForm({ locale }: IProps) {
   };
 
   return (
-    <form
-      className="flex w-full max-w-[500px] flex-col gap-4"
-      onSubmit={handleSubmit(v => submit(v))}
-    >
+    <form className="flex w-full max-w-[500px] flex-col gap-4" onSubmit={handleSubmit(v => submit(v))}>
       <h2 className="uppercase" data-aos="fade-right">
         {m.home_contact_us_title_1()}
         <span className="text-primary-100">{m.home_contact_us_title_2()}</span>
@@ -120,10 +112,7 @@ export default function ContactUsForm({ locale }: IProps) {
           data-aos-delay="100"
         />
         {errors.name && (
-          <p
-            className="text-red-600 text-sm"
-            id="hs-validation-name-error-helper"
-          >
+          <p className="text-red-600 text-sm" id="hs-validation-name-error-helper">
             {getError(errors.name.message)}
           </p>
         )}
@@ -138,10 +127,7 @@ export default function ContactUsForm({ locale }: IProps) {
           data-aos-delay="100"
         />
         {errors.email && (
-          <p
-            className="text-red-600 text-sm"
-            id="hs-validation-name-error-helper"
-          >
+          <p className="text-red-600 text-sm" id="hs-validation-name-error-helper">
             {getError(errors.email.message)}
           </p>
         )}
@@ -156,10 +142,7 @@ export default function ContactUsForm({ locale }: IProps) {
           data-aos-delay="100"
         />
         {errors.phone && (
-          <p
-            className="text-red-600 text-sm"
-            id="hs-validation-name-error-helper"
-          >
+          <p className="text-red-600 text-sm" id="hs-validation-name-error-helper">
             {getError(errors.phone.message)}
           </p>
         )}
@@ -175,10 +158,7 @@ export default function ContactUsForm({ locale }: IProps) {
           data-aos-delay="100"
         />
         {errors.message && (
-          <p
-            className="text-red-600 text-sm"
-            id="hs-validation-name-error-helper"
-          >
+          <p className="text-red-600 text-sm" id="hs-validation-name-error-helper">
             {getError(errors.message.message)}
           </p>
         )}
@@ -210,11 +190,7 @@ export default function ContactUsForm({ locale }: IProps) {
           <Phone width={36} height={36} />
           <div className="ml-1 flex flex-col">
             <p className="font-medium">{m.home_contact_us_telephone()}</p>
-            <a
-              title="Telephone"
-              href="tel:+38 (044) 355-05-99"
-              className="m-0 h-min text-nowrap p-0 text-primary-100"
-            >
+            <a title="Telephone" href="tel:+38 (044) 355-05-99" className="m-0 h-min text-nowrap p-0 text-primary-100">
               +38 (044) 355-05-99
             </a>
           </div>

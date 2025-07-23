@@ -1,10 +1,10 @@
 import "keen-slider/keen-slider.min.css";
-import type { Brand } from "@/types/brand";
 import { useKeenSlider } from "keen-slider/react";
 import { map } from "remeda";
+import type { Partner } from "@/types/partner";
 
 interface IProps {
-  partners: Brand[];
+  partners: Partner[];
 }
 
 export default function PartnersCarousel({ partners }: IProps) {

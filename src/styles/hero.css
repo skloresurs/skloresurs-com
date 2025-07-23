@@ -24,11 +24,7 @@
   background-color: var(--color-background-400);
   background-repeat: no-repeat;
   background-position: 0 0;
-  background-image: conic-gradient(
-    transparent,
-    var(--color-primary),
-    transparent 30%
-  );
+  background-image: conic-gradient(transparent, var(--color-primary), transparent 30%);
   animation: rotate 4s linear infinite;
 }
 

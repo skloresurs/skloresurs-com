@@ -2,13 +2,12 @@
 import "@/styles/cms.css";
 
 import { Image } from "astro:assets";
+import { readItem } from "@directus/sdk";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Layout from "@/layouts/Layout.astro";
 import { m } from "@/paraglide/messages";
-import { getLocale } from "@/paraglide/runtime";
-import { localizeHref } from "@/paraglide/runtime";
+import { getLocale, localizeHref } from "@/paraglide/runtime";
 import directus, { getCmsAssetURL } from "@/utils/cms";
-import { readItem } from "@directus/sdk";
 
 const news = await directus
   .request(
@@ -17,7 +16,7 @@ const news = await directus
         translations: {
           limit: 1,
           _filter: {
-            locales_code: { _eq: getLocale() },
+            localizations_code: { _eq: getLocale() },
           },
         },
       },
@@ -69,6 +68,6 @@ const extenalUrl = news.translations?.at(0)?.external_url;
         { label: news.translations?.at(0)?.title ?? "" },
       ]}
     />
-    <div class="content" set:html={news.translations?.at(0)?.content} />
+    <div class="content" set:html={news.translations?.at(0)?.body} />
   </div>
 </Layout>

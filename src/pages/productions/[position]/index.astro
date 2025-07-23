@@ -1,4 +1,5 @@
 ---
+import { readItems } from "@directus/sdk";
 import Playlist from "@/components/Playlist.astro";
 import TypedText from "@/components/TypedText";
 import PrimaryLinkButton from "@/components/ui/PrimaryLinkButton.astro";
@@ -6,7 +7,6 @@ import Layout from "@/layouts/Layout.astro";
 import { localizeHref } from "@/paraglide/runtime";
 import type { Productions } from "@/types/productions";
 import directus, { getCmsAssetURL } from "@/utils/cms";
-import { readItems } from "@directus/sdk";
 
 const position = Astro.params.position;
 const alt = Astro.url.searchParams.has("alt");
@@ -24,14 +24,14 @@ const [production] = await directus.request(
       translations: {
         limit: 1,
         _filter: {
-          locales_code: { _eq: Astro.currentLocale ?? "uk" },
+          localizations_code: { _eq: Astro.currentLocale ?? "uk" },
         },
       },
       alternative: {
         translations: {
           limit: 1,
           _filter: {
-            locales_code: { _eq: Astro.currentLocale ?? "uk" },
+            localizations_code: { _eq: Astro.currentLocale ?? "uk" },
           },
         },
       },
@@ -51,10 +51,7 @@ if (!production)
     status: 404,
   });
 
-const data: [Productions, Productions | null] = [
-  production,
-  production.alternative,
-];
+const data: [Productions, Productions | null] = [production, production.alternative];
 if (alt && data[1]) [data[1], data[0]] = [data[0], data[1]];
 ---
 

@@ -10,8 +10,7 @@ interface Props {
 const { total, perPage } = Astro.props;
 
 const searchParams = new URLSearchParams(Astro.url.searchParams);
-const page =
-  firstBy([1, Number(searchParams.get("page"))], [identity(), "desc"]) ?? 1;
+const page = firstBy([1, Number(searchParams.get("page"))], [identity(), "desc"]) ?? 1;
 
 const totalPages = ceil(total / perPage, 0);
 

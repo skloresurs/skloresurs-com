@@ -1,10 +1,10 @@
 ---
-import { m } from "@/paraglide/messages";
-import { getLocale, localizeHref } from "@/paraglide/runtime";
-import directus from "@/utils/cms";
 import { readItems } from "@directus/sdk";
 import { ChevronLeft, X } from "lucide-astro";
 import { map } from "remeda";
+import { m } from "@/paraglide/messages";
+import { getLocale, localizeHref } from "@/paraglide/runtime";
+import directus from "@/utils/cms";
 
 const productions = await directus.request(
   readItems("skloresurs_productions", {
@@ -17,7 +17,7 @@ const productions = await directus.request(
       translations: {
         limit: 1,
         _filter: {
-          locales_code: { _eq: getLocale() },
+          localizations_code: { _eq: getLocale() },
         },
       },
     },

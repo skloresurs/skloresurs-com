@@ -1,11 +1,11 @@
 ---
+import { readItems } from "@directus/sdk";
+import { map } from "remeda";
 import VacancyCard from "@/components/VacancyCard.astro";
 import Layout from "@/layouts/Layout.astro";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
 import directus from "@/utils/cms";
-import { readItems } from "@directus/sdk";
-import { map } from "remeda";
 
 const vacancies = await directus.request(
   readItems("skloresurs_vacancies", {
@@ -18,11 +18,11 @@ const vacancies = await directus.request(
       translations: {
         limit: 1,
         _filter: {
-          locales_code: { _eq: getLocale() },
+          localizations_code: { _eq: getLocale() },
         },
       },
     },
-    fields: ["*", { translations: ["*"], image: ["*"] }],
+    fields: ["*", { translations: ["*"], thumbnail: ["*"] }],
   }),
 );
 ---

@@ -1,7 +1,7 @@
 ---
+import { readItem } from "@directus/sdk";
 import { getLocale } from "@/paraglide/runtime";
 import directus from "@/utils/cms";
-import { readItem } from "@directus/sdk";
 import ProjectCardClient from "./ProjectCardCarousel";
 
 interface Props {
@@ -16,14 +16,14 @@ const project = await directus.request(
       translations: {
         limit: 1,
         _filter: {
-          locales_code: { _eq: getLocale() },
+          localizations_code: { _eq: getLocale() },
         },
       },
       location: {
         translations: {
           limit: 1,
           _filter: {
-            locales_code: { _eq: getLocale() },
+            localizations_code: { _eq: getLocale() },
           },
         },
       },

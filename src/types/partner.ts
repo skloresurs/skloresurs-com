@@ -1,4 +1,4 @@
-export type Brand = {
+export type Partner = {
   id: string;
   logo: string;
   name: string;

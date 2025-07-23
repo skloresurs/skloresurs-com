@@ -1,21 +1,16 @@
 ---
 import { Image } from "astro:assets";
+import { readSingleton } from "@directus/sdk";
+import { ChevronRight } from "lucide-astro";
+import { prop } from "remeda";
 import PrimaryLinkButton from "@/components/ui/PrimaryLinkButton.astro";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
 import directus, { getCmsAssetURL } from "@/utils/cms";
-import { readSingleton } from "@directus/sdk";
-import { ChevronRight } from "lucide-astro";
-import { prop } from "remeda";
 
-const qualityGuides = await directus.request(
-  readSingleton("skloresurs_quality_book"),
-);
+const qualityGuides = await directus.request(readSingleton("skloresurs_quality_guide"));
 
-const url = getCmsAssetURL(
-  prop(qualityGuides, getLocale()),
-  "quality-guide.pdf",
-);
+const url = getCmsAssetURL(prop(qualityGuides, getLocale()), `quality-guide-${getLocale()}.pdf`);
 ---
 
 <section id="quality-guide" class="mt-6 bg-background-600">

@@ -1,6 +1,6 @@
+import type { SEOProps } from "astro-seo";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
-import type { Props } from "astro-seo";
 
 interface IProps {
   title?: string;
@@ -8,13 +8,11 @@ interface IProps {
   pathname: string;
 }
 
-export default function generateSeoData(props: IProps): Props {
+export default function generateSeoData(props: IProps): SEOProps {
   const titleTemplate = m.meta_layout_title_template();
   const titleDefault = m.meta_layout_title();
 
-  const title = props.title
-    ? `${props.title} | ${titleTemplate}`
-    : titleDefault;
+  const title = props.title ? `${props.title} | ${titleTemplate}` : titleDefault;
   const description = props.description || m.meta_home_description();
   const canonical = `${import.meta.env.PUBLIC_URL}/${props.pathname}`;
 

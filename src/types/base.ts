@@ -1,3 +1,3 @@
 export type Translations = {
-  locales_code: string;
+  localizations_code: string;
 };
