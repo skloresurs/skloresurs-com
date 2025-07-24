@@ -3,6 +3,7 @@ import "@/styles/cms.css";
 
 import { Image } from "astro:assets";
 import { readItem } from "@directus/sdk";
+import { setAttr } from "@directus/visual-editing";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Layout from "@/layouts/Layout.astro";
 import { m } from "@/paraglide/messages";
@@ -53,6 +54,14 @@ if (!vacancy)
         transition:name={`vacancy-${vacancy.slug}-thumbnail`}
       />
       <h1
+        {...{
+          "data-directus": setAttr({
+            collection: "skloresurs_vacancies_translations",
+            item: vacancy.translations?.at(0)?.id ?? "",
+            fields: ["title"],
+            mode: "popover",
+          }),
+        }}
         class="text-center py-12 shadow-2xl"
         transition:name={`vacancy-${vacancy.slug}-title`}
       >
@@ -69,6 +78,17 @@ if (!vacancy)
         { label: vacancy.translations?.at(0)?.title ?? "" },
       ]}
     />
-    <div class="content" set:html={vacancy.translations?.at(0)?.body} />
+    <div
+      {...{
+        "data-directus": setAttr({
+          collection: "skloresurs_vacancies_translations",
+          item: vacancy.translations?.at(0)?.id ?? "",
+          fields: ["body"],
+          mode: "popover",
+        }),
+      }}
+      class="content"
+      set:html={vacancy.translations?.at(0)?.body}
+    />
   </div>
 </Layout>

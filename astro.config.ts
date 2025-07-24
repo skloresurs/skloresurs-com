@@ -63,6 +63,12 @@ export default defineConfig({
         outdir: "./src/paraglide",
       }),
     ],
+    server: {
+      allowedHosts: ["easy-muskox-hardy.ngrok-free.app"],
+      headers: {
+        "Content-Security-Policy": "frame-ancestors https://cms.skloresurs.com",
+      },
+    },
   },
   env: {
     schema: {

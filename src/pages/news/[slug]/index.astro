@@ -3,6 +3,7 @@ import "@/styles/cms.css";
 
 import { Image } from "astro:assets";
 import { readItem } from "@directus/sdk";
+import { setAttr } from "@directus/visual-editing";
 import Breadcrumbs from "@/components/Breadcrumbs.astro";
 import Layout from "@/layouts/Layout.astro";
 import { m } from "@/paraglide/messages";
@@ -52,6 +53,14 @@ const extenalUrl = news.translations?.at(0)?.external_url;
         transition:name={`news-${news.slug}-thumbnail`}
       />
       <h1
+        {...{
+          "data-directus": setAttr({
+            collection: "skloresurs_news_translations",
+            item: news.translations?.at(0)?.id ?? "",
+            fields: ["title"],
+            mode: "popover",
+          }),
+        }}
         class="mb-2 text-center text-balance px-6 py-16"
         transition:name={`news-${news.slug}-title`}
       >
@@ -68,6 +77,17 @@ const extenalUrl = news.translations?.at(0)?.external_url;
         { label: news.translations?.at(0)?.title ?? "" },
       ]}
     />
-    <div class="content" set:html={news.translations?.at(0)?.body} />
+    <div
+      {...{
+        "data-directus": setAttr({
+          collection: "skloresurs_news_translations",
+          item: news.translations?.at(0)?.id ?? "",
+          fields: ["body"],
+          mode: "popover",
+        }),
+      }}
+      class="content"
+      set:html={news.translations?.at(0)?.body}
+    />
   </div>
 </Layout>

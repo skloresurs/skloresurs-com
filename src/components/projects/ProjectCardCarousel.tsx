@@ -2,6 +2,7 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/captions.css";
 import "yet-another-react-lightbox/plugins/counter.css";
 
+import { setAttr } from "@directus/visual-editing";
 import { Calendar, Info, MapPin, ZoomIn } from "lucide-react";
 import { useState } from "react";
 import { map } from "remeda";
@@ -25,6 +26,12 @@ export default function ProjectCardCarousel({ project }: IProps) {
   return (
     <>
       <button
+        {...{
+          "data-directus": setAttr({
+            collection: "skloresurs_projects",
+            item: project.id,
+          }),
+        }}
         type="button"
         className="group relative block overflow-hidden rounded-lg"
         onClick={() => setIsOpen(true)}

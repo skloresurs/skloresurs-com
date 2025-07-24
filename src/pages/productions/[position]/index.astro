@@ -1,5 +1,6 @@
 ---
 import { readItems } from "@directus/sdk";
+import { setAttr } from "@directus/visual-editing";
 import Playlist from "@/components/Playlist.astro";
 import TypedText from "@/components/TypedText";
 import PrimaryLinkButton from "@/components/ui/PrimaryLinkButton.astro";
@@ -82,6 +83,12 @@ if (alt && data[1]) [data[1], data[0]] = [data[0], data[1]];
   <div class="absolute inset-0 -z-40 size-full bg-gradient-to-r from-black">
   </div>
   <div
+    {...{
+      "data-directus": setAttr({
+        collection: "skloresurs_productions",
+        item: data[0].id,
+      }),
+    }}
     class="absolute inset-x-6 top-1/2 flex -translate-y-1/2 flex-col gap-8 md:right-1/2 lg:right-2/3 z-10"
   >
     <h1>

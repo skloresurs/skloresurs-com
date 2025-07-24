@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import { aggregate, readItems } from "@directus/sdk";
+import { setAttr } from "@directus/visual-editing";
 import { firstBy, identity, map } from "remeda";
 import Pagination from "@/components/ui/Pagination.astro";
 import Layout from "@/layouts/Layout.astro";
@@ -66,6 +67,14 @@ const total = Number(totalReq[0].count);
             data-aos-anchor-placement="top-bottom"
           >
             <Image
+              {...{
+                "data-directus": setAttr({
+                  collection: "skloresurs_news",
+                  item: e.slug,
+                  fields: ["thumbnail"],
+                  mode: "modal",
+                }),
+              }}
               src={getCmsAssetURL(e.thumbnail.id, "image.webp")}
               width={e.thumbnail.width}
               height={e.thumbnail.height}
@@ -80,6 +89,14 @@ const total = Number(totalReq[0].count);
               data-aos-anchor-placement="top-bottom"
               data-aos-delay="100"
               transition:name={`news-${e.slug}-title`}
+              {...{
+                "data-directus": setAttr({
+                  collection: "skloresurs_news_translations",
+                  item: e.translations?.at(0)?.id ?? "",
+                  fields: ["title"],
+                  mode: "popover",
+                }),
+              }}
             >
               {e.translations?.at(0)?.title}
             </h2>
@@ -88,6 +105,14 @@ const total = Number(totalReq[0].count);
               data-aos="fade-right"
               data-aos-anchor-placement="top-bottom"
               data-aos-delay="200"
+              {...{
+                "data-directus": setAttr({
+                  collection: "skloresurs_news_translations",
+                  item: e.translations?.at(0)?.id ?? "",
+                  fields: ["description"],
+                  mode: "popover",
+                }),
+              }}
             >
               {e.translations?.at(0)?.description}
             </p>

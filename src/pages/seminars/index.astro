@@ -2,26 +2,27 @@
 import "@/styles/cms.css";
 
 import { readSingleton } from "@directus/sdk";
+import { setAttr } from "@directus/visual-editing";
 import Layout from "@/layouts/Layout.astro";
 import { m } from "@/paraglide/messages";
 import { getLocale } from "@/paraglide/runtime";
 import directus from "@/utils/cms";
 
-const page = directus
-  .request(
-    readSingleton("skloresurs_seminar", {
-      deep: {
-        translations: {
-          limit: 1,
-          _filter: {
-            localizations_code: { _eq: getLocale() },
-          },
+const data = await directus.request(
+  readSingleton("skloresurs_seminar", {
+    deep: {
+      translations: {
+        limit: 1,
+        _filter: {
+          localizations_code: { _eq: getLocale() },
         },
       },
-      fields: [{ translations: ["*"] }],
-    }),
-  )
-  .then(data => data?.translations?.at(0)?.body);
+    },
+    fields: [{ translations: ["*"] }],
+  }),
+);
+
+const body = data.translations?.at(0)?.body;
 ---
 
 <Layout
@@ -30,6 +31,17 @@ const page = directus
 >
   <div class="mx-auto max-w-6xl px-5">
     <h1 class="text-center mb-5">{m.meta_seminars_title()}</h1>
-    <div class="content" set:html={page} />
+    <div
+      {...{
+        "data-directus": setAttr({
+          collection: "skloresurs_seminar_translations",
+          item: data.translations?.at(0)?.id ?? "",
+          fields: ["body"],
+          mode: "popover",
+        }),
+      }}
+      class="content"
+      set:html={body}
+    />
   </div>
 </Layout>

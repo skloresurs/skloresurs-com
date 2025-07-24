@@ -1,4 +1,5 @@
 ---
+import { setAttr } from "@directus/visual-editing";
 import { ChevronRight } from "lucide-astro";
 import PrimaryLink from "@/components/ui/PrimaryLink.astro";
 import { m } from "@/paraglide/messages";
@@ -14,6 +15,12 @@ const { news, index } = Astro.props;
 ---
 
 <div
+  {...{
+    "data-directus": setAttr({
+      collection: "skloresurs_news",
+      item: news.slug,
+    }),
+  }}
   class="flex flex-col gap-2"
   data-aos="fade-down"
   data-aos-anchor-placement="top-bottom"

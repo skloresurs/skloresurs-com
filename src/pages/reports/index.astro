@@ -31,12 +31,16 @@ const reports = await directus.request(
             </h2>
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
               <ReportCard
+                id={e.id}
                 href={getCmsAssetURL(e.audit, `report-audit-${e.year}.pdf`)}
                 title={m.reports_auditory()}
+                type="audit"
               />
               <ReportCard
+                id={e.id}
                 href={getCmsAssetURL(e.finance, `report-finance-${e.year}.pdf`)}
                 title={m.reports_financial()}
+                type="finance"
               />
             </div>
           </div>
