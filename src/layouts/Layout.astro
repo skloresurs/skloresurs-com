@@ -73,5 +73,7 @@ const seo = generateSeoData({
 <script>
 	import { apply } from "@directus/visual-editing";
 
-	apply({ directusUrl: "https://cms.skloresurs.com" });
+	document.addEventListener("DOMContentLoaded", async () => {
+		apply({ directusUrl: "https://cms.skloresurs.com" });
+	});
 </script>
