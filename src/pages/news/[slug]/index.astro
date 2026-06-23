@@ -45,7 +45,11 @@ const extenalUrl = news.translations?.at(0)?.external_url;
   <div class="mx-auto max-w-6xl px-5">
     <div class="relative">
       <Image
-        src={getCmsAssetURL(news.thumbnail.id, "image.webp")}
+        src={getCmsAssetURL(news.thumbnail.id, "image.webp", {
+          width: 1280,
+          quality: 65,
+          format: "webp",
+        })}
         width={news.thumbnail.width}
         height={news.thumbnail.height}
         alt={news.translations?.at(0)?.title ?? ""}

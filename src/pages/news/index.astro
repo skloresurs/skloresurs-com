@@ -75,7 +75,11 @@ const total = Number(totalReq[0].count);
                   mode: "modal",
                 }),
               }}
-              src={getCmsAssetURL(e.thumbnail.id, "image.webp")}
+              src={getCmsAssetURL(e.thumbnail.id, "image.webp", {
+                width: 768,
+                quality: 75,
+                format: "webp",
+              })}
               width={e.thumbnail.width}
               height={e.thumbnail.height}
               alt={e.translations?.at(0)?.title ?? ""}

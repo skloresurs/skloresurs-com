@@ -2,6 +2,8 @@ import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import { map } from "remeda";
 import type { Partner } from "@/types/partner";
+import { getCmsAssetURL } from "@/utils/cms";
+import { retryOnImageError } from "@/utils/img";
 
 interface IProps {
   partners: Partner[];
@@ -55,12 +57,18 @@ export default function PartnersCarousel({ partners }: IProps) {
       {map(partners, e => (
         <div key={e.id} className="keen-slider__slide">
           <img
-            src={`${import.meta.env.PUBLIC_CMS_URL}/assets/${e.logo}`}
+            src={getCmsAssetURL(e.logo, "", {
+              width: 256,
+              quality: 80,
+              format: "webp",
+              fit: "contain",
+            })}
             alt={e.name}
             width={512}
             height={512}
             loading="lazy"
             className="select-none rounded-md object-contain"
+            onError={retryOnImageError}
           />
         </div>
       ))}

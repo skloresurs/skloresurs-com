@@ -26,7 +26,13 @@ const { catalog } = Astro.props;
     width="150"
     height="150"
     class="aspect-square w-[150px] h-[150px]"
-    src={getCmsAssetURL(catalog.image, "image.webp")}
+    src={getCmsAssetURL(catalog.image, "image.webp", {
+      width: 300,
+      height: 300,
+      fit: "cover",
+      quality: 75,
+      format: "webp",
+    })}
     alt={catalog.translations?.at(0)?.title ?? ""}
     loading="lazy"
   />

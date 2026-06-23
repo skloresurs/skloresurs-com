@@ -23,7 +23,11 @@ const { vacancy } = Astro.props;
   class="group flex flex-col h-full shadow-sm rounded-md bg-background-600 shadow-background-600/70 overflow-hidden"
 >
   <Image
-    src={getCmsAssetURL(vacancy.thumbnail.id, "image.webp")}
+    src={getCmsAssetURL(vacancy.thumbnail.id, "image.webp", {
+      width: 640,
+      quality: 75,
+      format: "webp",
+    })}
     width={vacancy.thumbnail.width}
     height={vacancy.thumbnail.height}
     class="h-52 object-cover"

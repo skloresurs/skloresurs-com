@@ -46,7 +46,11 @@ if (!vacancy)
   <div class="mx-auto max-w-6xl px-5">
     <div class="w-full relative">
       <Image
-        src={getCmsAssetURL(vacancy.thumbnail.id, "image.webp")}
+        src={getCmsAssetURL(vacancy.thumbnail.id, "image.webp", {
+          width: 1280,
+          quality: 65,
+          format: "webp",
+        })}
         alt={vacancy.translations?.at(0)?.title ?? ""}
         width={vacancy.thumbnail.width}
         height={vacancy.thumbnail.height}

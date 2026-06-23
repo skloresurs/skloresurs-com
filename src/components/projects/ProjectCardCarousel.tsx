@@ -9,8 +9,10 @@ import { map } from "remeda";
 import Lightbox from "yet-another-react-lightbox";
 import Captions from "yet-another-react-lightbox/plugins/captions";
 import Counter from "yet-another-react-lightbox/plugins/counter";
+import LightboxImage from "@/components/ui/LightboxImage";
 import type { Project } from "@/types/project";
 import { getCmsAssetURL } from "@/utils/cms";
+import { retryOnImageError } from "@/utils/img";
 
 interface IProps {
   project: Project;
@@ -40,8 +42,14 @@ export default function ProjectCardCarousel({ project }: IProps) {
       >
         <img
           className="size-40 w-full rounded-lg object-cover duration-300 group-hover:brightness-[0.40]"
-          src={getCmsAssetURL(project.thumbnail.id, project.thumbnail.name)}
+          src={getCmsAssetURL(project.thumbnail.id, project.thumbnail.name, {
+            width: 640,
+            quality: 75,
+            format: "webp",
+          })}
           alt={title}
+          loading="lazy"
+          onError={retryOnImageError}
         />
         <div className="absolute right-2 bottom-2 left-2 opacity-0 transition group-hover:opacity-100">
           <h2 className="text-center text-lg">{title}</h2>
@@ -55,13 +63,18 @@ export default function ProjectCardCarousel({ project }: IProps) {
         open={isOpen}
         close={() => setIsOpen(false)}
         plugins={[Captions, Counter]}
+        render={{ slide: ({ slide }) => <LightboxImage slide={slide} /> }}
         counter={{
           container: {
             style: { top: "unset", bottom: 0, left: "unset", right: 0 },
           },
         }}
         slides={map(images, image => ({
-          src: getCmsAssetURL(image.id, image.name),
+          src: getCmsAssetURL(image.id, image.name, {
+            width: 2048,
+            quality: 80,
+            format: "webp",
+          }),
           alt: title,
           width: image.width,
           height: image.height,
