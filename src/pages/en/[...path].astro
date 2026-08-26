@@ -1,0 +1,18 @@
+---
+import { deLocalizeUrl } from "@/paraglide/runtime";
+
+/**
+ * Фізичного дерева сторінок під /en немає — англомовна версія рендериться з тих
+ * самих маршрутів, що й українська, а префікс знімає paraglideMiddleware.
+ *
+ * Цей catch-all існує лише для того, щоб `App.match()` знайшов маршрут для
+ * /en/*. Адаптер @nurodev/astro-bun при `!match` віддає власний «Not found» ще
+ * до `App.render()` — тобто до того, як middleware отримає керування. Без цього
+ * файлу будь-який /en/* повертає 404 незалежно від налаштувань paraglide.
+ *
+ * Додавання 404.astro тут не помогло б: `App.match()` його не враховує,
+ * 404-фолбек живе всередині `App.render()`.
+ */
+const target = deLocalizeUrl(Astro.url);
+return Astro.rewrite(`${target.pathname}${target.search}`);
+---

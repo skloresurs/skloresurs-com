@@ -25,7 +25,7 @@ const url = getCmsAssetURL(prop(qualityGuides, getLocale()), `quality-guide-${ge
             mode: "popover",
           }),
         }}
-        src={`/quality-guide-${Astro.currentLocale ?? "uk"}.webp`}
+        src={`/quality-guide-${getLocale()}.webp`}
         alt="Quality book"
         title="Quality book"
         height={447}

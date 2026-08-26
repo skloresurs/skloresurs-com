@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { localizeHref } from "@/paraglide/runtime";
 
 interface Props {
   loading?: "eager" | "lazy";
@@ -9,7 +10,7 @@ interface Props {
 const { loading, width } = Astro.props as Props;
 ---
 
-<a href="/">
+<a href={localizeHref("/")}>
   <Image
     src="/logo/logo.webp"
     alt="Logo"

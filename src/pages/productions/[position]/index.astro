@@ -5,7 +5,7 @@ import Playlist from "@/components/Playlist.astro";
 import TypedText from "@/components/TypedText";
 import PrimaryLinkButton from "@/components/ui/PrimaryLinkButton.astro";
 import Layout from "@/layouts/Layout.astro";
-import { localizeHref } from "@/paraglide/runtime";
+import { getLocale, localizeHref } from "@/paraglide/runtime";
 import type { Productions } from "@/types/productions";
 import directus, { getCmsAssetURL } from "@/utils/cms";
 
@@ -25,14 +25,14 @@ const [production] = await directus.request(
       translations: {
         limit: 1,
         _filter: {
-          localizations_code: { _eq: Astro.currentLocale ?? "uk" },
+          localizations_code: { _eq: getLocale() },
         },
       },
       alternative: {
         translations: {
           limit: 1,
           _filter: {
-            localizations_code: { _eq: Astro.currentLocale ?? "uk" },
+            localizations_code: { _eq: getLocale() },
           },
         },
       },

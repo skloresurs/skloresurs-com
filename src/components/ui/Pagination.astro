@@ -2,6 +2,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-astro";
 import { ceil, firstBy, identity } from "remeda";
 import { twMerge } from "tailwind-merge";
+import { localizeHref } from "@/paraglide/runtime";
 
 interface Props {
   total: number;
@@ -14,6 +15,11 @@ const page = firstBy([1, Number(searchParams.get("page"))], [identity(), "desc"]
 
 const totalPages = ceil(total / perPage, 0);
 
+/**
+ * `Astro.url.pathname` тут уже де-локалізований (middleware знімає префікс
+ * мови), тому шлях треба прогнати через `localizeHref` — інакше пагінація
+ * викидала б із англомовної версії на українську.
+ */
 function getUrl(page: number) {
   const searchParams = new URLSearchParams(Astro.url.searchParams);
   if (page === 1) {
@@ -21,7 +27,8 @@ function getUrl(page: number) {
   } else {
     searchParams.set("page", String(page));
   }
-  return `${Astro.url.pathname}?${searchParams.toString()}`;
+  const query = searchParams.toString();
+  return localizeHref(`${Astro.url.pathname}${query ? `?${query}` : ""}`);
 }
 ---
 

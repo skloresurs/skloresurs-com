@@ -1,6 +1,5 @@
 import partytown from "@astrojs/partytown";
 import react from "@astrojs/react";
-import sitemap from "@astrojs/sitemap";
 import { paraglideVitePlugin } from "@inlang/paraglide-js";
 import bun from "@nurodev/astro-bun";
 import compress from "@playform/compress";
@@ -8,14 +7,13 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
 import favicons from "astro-favicons";
 import icon from "astro-icon";
-import robots from "astro-robots";
 import vtbot from "astro-vtbot";
 
-const defaultLocale = "uk";
-const locales = {
-  uk: "uk",
-  en: "en",
-};
+// sitemap і robots віддаються SSR-ендпоінтами (src/pages/sitemap.xml.ts та
+// src/pages/robots.txt.ts), а не інтеграціями @astrojs/sitemap і astro-robots.
+// Дві причини: статично згенеровані файли на проді віддавали 404, і
+// @astrojs/sitemap принципово не бачить /en/* — фізичних маршрутів під /en
+// немає, префікс знімає paraglideMiddleware.
 
 // https://astro.build/config
 export default defineConfig({
@@ -46,13 +44,6 @@ export default defineConfig({
         forward: ["dataLayer.push", "gtag"],
       },
     }),
-    sitemap({
-      i18n: {
-        locales,
-        defaultLocale,
-      },
-    }),
-    robots(),
     compress(),
   ],
   vite: {
@@ -61,6 +52,12 @@ export default defineConfig({
       paraglideVitePlugin({
         project: "./project.inlang",
         outdir: "./src/paraglide",
+        // "url" мусить бути в стратегії, інакше paraglideMiddleware не де-локалізує
+        // адресу (див. src/paraglide/server.js: `strategy.includes("url")`), а
+        // localizeHref() все одно ставить префікс /en — і всі англомовні
+        // посилання віддають 404. "url" стоїть першим, щоб мову визначала
+        // виключно адреса: один URL — один контент, без редіректів за cookie.
+        strategy: ["url", "cookie", "globalVariable", "baseLocale"],
       }),
     ],
     server: {

@@ -1,6 +1,19 @@
 import type { SEOProps } from "astro-seo";
 import { m } from "@/paraglide/messages";
-import { getLocale } from "@/paraglide/runtime";
+import { baseLocale, getLocale, locales, localizeHref } from "@/paraglide/runtime";
+
+/**
+ * Дефолт зі схеми `astro.config.ts` діє лише при імпорті з `astro:env/client`,
+ * тому для сирого `import.meta.env` тримаємо запобіжник тут: без нього відсутня
+ * змінна валила б рендер сторінки у 500 на `new URL()`.
+ */
+const SITE_URL = import.meta.env.PUBLIC_URL || "https://skloresurs.com";
+
+/** OpenGraph очікує формат language_TERRITORY, а не голий код мови. */
+const OG_LOCALES: Record<string, string> = {
+  uk: "uk_UA",
+  en: "en_US",
+};
 
 interface IProps {
   title?: string;
@@ -8,13 +21,24 @@ interface IProps {
   pathname: string;
 }
 
+/**
+ * Абсолютний URL локалізованої версії шляху.
+ *
+ * `pathname` приходить із `Astro.url`, тобто вже без префікса мови — його знімає
+ * middleware. Тому шлях завжди проганяємо через `localizeHref`, а не склеюємо
+ * рядками: інакше canonical англомовної сторінки вказував би на українську, і
+ * Google викидав би /en з індексу.
+ */
+const absoluteUrl = (pathname: string, locale?: string) =>
+  new URL(localizeHref(pathname, locale ? { locale } : undefined), SITE_URL).href;
+
 export default function generateSeoData(props: IProps): SEOProps {
   const titleTemplate = m.meta_layout_title_template();
   const titleDefault = m.meta_layout_title();
 
   const title = props.title ? `${props.title} | ${titleTemplate}` : titleDefault;
   const description = props.description || m.meta_home_description();
-  const canonical = `${import.meta.env.PUBLIC_URL}/${props.pathname}`;
+  const canonical = absoluteUrl(props.pathname);
 
   return {
     title: props.title,
@@ -24,14 +48,11 @@ export default function generateSeoData(props: IProps): SEOProps {
     description,
     canonical,
     languageAlternates: [
-      {
-        hrefLang: "uk",
-        href: `${import.meta.env.PUBLIC_URL}/en${props.pathname}`,
-      },
-      {
-        hrefLang: "en",
-        href: `${import.meta.env.PUBLIC_URL}${props.pathname}`,
-      },
+      ...locales.map(locale => ({
+        hrefLang: locale,
+        href: absoluteUrl(props.pathname, locale),
+      })),
+      { hrefLang: "x-default", href: absoluteUrl(props.pathname, baseLocale) },
     ],
     openGraph: {
       basic: {
@@ -43,7 +64,7 @@ export default function generateSeoData(props: IProps): SEOProps {
       optional: {
         description,
         siteName: titleDefault,
-        locale: getLocale(),
+        locale: OG_LOCALES[getLocale()] ?? getLocale(),
       },
     },
     twitter: {
@@ -62,7 +83,7 @@ export default function generateSeoData(props: IProps): SEOProps {
         },
         {
           rel: "sitemap",
-          href: "/sitemap-index.xml",
+          href: "/sitemap.xml",
         },
         {
           rel: "stylesheet",
