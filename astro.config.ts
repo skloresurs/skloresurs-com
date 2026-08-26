@@ -7,7 +7,6 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, envField } from "astro/config";
 import favicons from "astro-favicons";
 import icon from "astro-icon";
-import vtbot from "astro-vtbot";
 
 // sitemap і robots віддаються SSR-ендпоінтами (src/pages/sitemap.xml.ts та
 // src/pages/robots.txt.ts), а не інтеграціями @astrojs/sitemap і astro-robots.
@@ -24,9 +23,6 @@ export default defineConfig({
   integrations: [
     react(),
     icon(),
-    vtbot({
-      loadingIndicator: false,
-    }),
     favicons({
       name: "Skloresurs",
       short_name: "Skloresurs",

@@ -1,10 +1,8 @@
 ---
 import "@/styles/global.css";
-import { ClientRouter } from "astro:transitions";
 import GoogleAnalytics from "@astro-kits/google-analytics";
 import { GoogleTagmanagerPartytown } from "@digi4care/astro-google-tagmanager";
 import { SEO } from "astro-seo";
-import ProgressBar from "astro-vtbot/components/ProgressBar.astro";
 import Footer from "@/components/Footer.astro";
 import Navbar from "@/components/navbar/Navbar.astro";
 import { getLocale } from "@/paraglide/runtime";
@@ -36,16 +34,30 @@ const seo = generateSeoData({
 			src="https://app.termly.io/resource-blocker/7c598e80-a00e-49eb-bf87-a41eecfbfc27?autoBlock=on"
 		></script>
 
+		<!--
+			ClientRouter (View Transitions) вилучено свідомо. Він підмінював <body>
+			на кожній навігації, і разом із ним гинуло все, що сторонні скрипти
+			вставляють у рантаймі: банер згоди Termly і всі 12 його <style>
+			(заміряно на проді — зникали з першої ж навігації), автоблокувальник
+			Termly, посилання Consent Preferences, віджет Chatwoot та слухачі
+			перемикача мови.
+
+			Через це AOS і preline більше не можна ініціалізувати на
+			`astro:page-load` — цю подію дispatch-ить саме ClientRouter
+			(astro/dist/transitions/router.js:406), і без нього вона не спрацює
+			ніколи. Використовуємо `load`: при початковому завантаженні
+			`astro:page-load` зводився рівно до нього, тому таймінг незмінний.
+			Для AOS це принципово — він рахує офсети один раз, і робити це треба
+			після завантаження зображень.
+		-->
 		<script>
 			import AOS from "aos";
-			document.addEventListener("astro:page-load", async () => {
+			window.addEventListener("load", () => {
 				AOS.init();
 			});
 		</script>
 		<SEO {...seo} />
 		<meta name="generator" content={Astro.generator} />
-		<ClientRouter />
-		<ProgressBar />
 		<GoogleAnalytics />
 		<GoogleTagmanagerPartytown id={import.meta.env.G_TAG_MANAGER} />
 		<LiveChat />
@@ -69,7 +81,7 @@ const seo = generateSeoData({
 
 <script src="../../node_modules/preline/preline.js"></script>
 <script>
-	document.addEventListener("astro:page-load", async () => {
+	window.addEventListener("load", async () => {
 		const preline = await import("preline/dist/preline.js");
 		preline.HSStaticMethods.autoInit();
 	});
